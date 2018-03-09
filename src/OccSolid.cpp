@@ -17,3 +17,8 @@ Solid::Solid(const TopoDS_Solid& aSolid)
         myFaces.push_back(Occ::Face(TopoDS::Face(faces.FindKey(i))));
     }
 }
+
+const Occ::Faces& Solid::getFaces() const
+{
+    return myFaces;
+}

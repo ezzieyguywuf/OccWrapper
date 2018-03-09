@@ -18,3 +18,11 @@ TEST(OccShape, Equals){
     EXPECT_EQ(shape1, shape2);
     EXPECT_NE(shape1, shape3);
 }
+
+TEST(OccShape, getFaces)
+{
+    BRepPrimAPI_MakeBox mkBox(10, 10, 10);
+    mkBox.Build();
+    Occ::Solid myShape(TopoDS::Solid(mkBox.Shape()));
+    EXPECT_EQ(myShape.getFaces().size(), 6);
+}
