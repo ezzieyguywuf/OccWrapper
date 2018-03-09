@@ -10,6 +10,12 @@ Shape::Shape(const Shape& aShape)
     : myShape(aShape.myShape)
 {}
 
+Shape Shape::operator=(const Shape& aShape)
+{
+    myShape = aShape.myShape;
+    return *this;
+}
+
 bool Shape::operator==(const Shape& aShape) const
 {
     return myShape.IsEqual(aShape.myShape);
