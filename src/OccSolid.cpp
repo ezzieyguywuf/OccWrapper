@@ -16,9 +16,21 @@ Solid::Solid(const TopoDS_Solid& aSolid)
     {
         myFaces.push_back(Occ::Face(TopoDS::Face(faces.FindKey(i))));
     }
+
+    TopTools_IndexedMapOfShape edges;
+    TopExp::MapShapes(this->getShape(), TopAbs_EDGE, edges);
+    for (int i=1; i <= edges.Extent(); i++)
+    {
+        myEdges.push_back(Occ::Edge(TopoDS::Edge(edges.FindKey(i))));
+    }
 }
 
 const Occ::Faces& Solid::getFaces() const
 {
     return myFaces;
+}
+
+const Occ::Edges& Solid::getEdges() const
+{
+    return myEdges;
 }

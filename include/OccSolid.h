@@ -3,6 +3,7 @@
 
 #include <OccShape.h>
 #include <OccFace.h>
+#include <OccEdge.h>
 #include <OccTypes.h>
 
 #include <TopoDS_Solid.hxx>
@@ -14,9 +15,11 @@ namespace Occ{
             Solid(const TopoDS_Solid& aSolid);
 
             const Faces& getFaces() const;
+            const Edges& getEdges() const;
 
         private:
             Faces myFaces;
+            Edges myEdges;
     };
 
 }

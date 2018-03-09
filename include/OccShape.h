@@ -16,6 +16,7 @@ namespace Occ{
 
             bool operator==(const Shape& aShape) const;
             bool operator!=(const Shape& aShape) const;
+            // Overlap, but different orientations.
             bool isSimilar(const Shape& aShape) const;
 
         protected:

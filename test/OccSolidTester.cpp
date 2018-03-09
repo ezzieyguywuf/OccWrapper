@@ -26,3 +26,11 @@ TEST(OccShape, getFaces)
     Occ::Solid myShape(TopoDS::Solid(mkBox.Shape()));
     EXPECT_EQ(myShape.getFaces().size(), 6);
 }
+
+TEST(OccShape, getEdges)
+{
+    BRepPrimAPI_MakeBox mkBox(10, 10, 10);
+    mkBox.Build();
+    Occ::Solid myShape(TopoDS::Solid(mkBox.Shape()));
+    EXPECT_EQ(myShape.getEdges().size(), 12);
+}
