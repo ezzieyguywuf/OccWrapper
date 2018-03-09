@@ -25,3 +25,17 @@ TEST(OccShape, Equals){
     EXPECT_EQ(shape1, shape2);
     EXPECT_NE(shape1, shape3);
 }
+
+//TEST(OccShape, GetFaces){
+    //BRepPrimAPI_MakeBox mkBox(10.0, 10.0, 10.0);
+    //mkBox.Build();
+    //MyShape shape(mkBox.Shape());
+    //EXPECT_EQ(shape.getFaces().size(), 6);
+//}
+
+//TEST(OccShape, GetEdges){
+    //BRepPrimAPI_MakeBox mkBox(10.0, 10.0, 10.0);
+    //mkBox.Build();
+    //MyShape shape(mkBox.Shape());
+    //EXPECT_EQ(shape.getEdges().size(), 12);
+//}
