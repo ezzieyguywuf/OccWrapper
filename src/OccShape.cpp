@@ -30,3 +30,8 @@ bool Shape::isSimilar(const Shape& aShape) const
 {
     return myShape.IsSame(aShape.myShape);
 }
+
+TopoDS_Shape Shape::getShape() const
+{
+    return myShape;
+}

@@ -2,6 +2,9 @@
 #define OCCSHAPE_H
 
 #include <TopoDS_Shape.hxx>
+#include <vector>
+
+using std::vector;
 
 namespace Occ{
     class Shape
@@ -17,6 +20,7 @@ namespace Occ{
 
         protected:
             Shape(TopoDS_Shape aShape);
+            TopoDS_Shape getShape() const;
 
         private:
             TopoDS_Shape myShape;

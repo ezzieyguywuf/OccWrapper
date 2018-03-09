@@ -2,6 +2,9 @@
 #define OCCSOLID_H
 
 #include <OccShape.h>
+#include <OccFace.h>
+#include <OccTypes.h>
+
 #include <TopoDS_Solid.hxx>
 
 namespace Occ{
@@ -9,11 +12,13 @@ namespace Occ{
     {
         public:
             Solid(const TopoDS_Solid& aSolid);
+
+            const Faces& getFaces() const;
+
+        private:
+            Faces myFaces;
     };
 
-    Solid::Solid(const TopoDS_Solid& aSolid)
-        : Shape(aSolid)
-    {}
 }
 
 #endif /* OCCSOLID_H */
