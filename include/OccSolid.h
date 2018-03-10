@@ -17,6 +17,10 @@ namespace Occ{
             const Faces& getFaces() const;
             const Edges& getEdges() const;
 
+        protected:
+            void processFaces();
+            void processEdges();
+
         private:
             Faces myFaces;
             Edges myEdges;

@@ -10,19 +10,8 @@ using Occ::Solid;
 Solid::Solid(const TopoDS_Solid& aSolid)
     : Shape(aSolid)
 {
-    TopTools_IndexedMapOfShape faces;
-    TopExp::MapShapes(this->getShape(), TopAbs_FACE, faces);
-    for (int i=1; i <= faces.Extent(); i++)
-    {
-        myFaces.push_back(Occ::Face(TopoDS::Face(faces.FindKey(i))));
-    }
-
-    TopTools_IndexedMapOfShape edges;
-    TopExp::MapShapes(this->getShape(), TopAbs_EDGE, edges);
-    for (int i=1; i <= edges.Extent(); i++)
-    {
-        myEdges.push_back(Occ::Edge(TopoDS::Edge(edges.FindKey(i))));
-    }
+    this->processFaces();
+    this->processEdges();
 }
 
 const Occ::Faces& Solid::getFaces() const
@@ -33,4 +22,24 @@ const Occ::Faces& Solid::getFaces() const
 const Occ::Edges& Solid::getEdges() const
 {
     return myEdges;
+}
+
+void Solid::processFaces()
+{
+    TopTools_IndexedMapOfShape faces;
+    TopExp::MapShapes(this->getShape(), TopAbs_FACE, faces);
+    for (int i=1; i <= faces.Extent(); i++)
+    {
+        myFaces.push_back(Occ::Face(TopoDS::Face(faces.FindKey(i))));
+    }
+}
+
+void Solid::processEdges()
+{
+    TopTools_IndexedMapOfShape edges;
+    TopExp::MapShapes(this->getShape(), TopAbs_EDGE, edges);
+    for (int i=1; i <= edges.Extent(); i++)
+    {
+        myEdges.push_back(Occ::Edge(TopoDS::Edge(edges.FindKey(i))));
+    }
 }
