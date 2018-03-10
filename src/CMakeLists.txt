@@ -12,3 +12,6 @@ target_link_libraries(OccBox ${OCC_LIBS} OccSolid)
 
 add_library(OccCylinder OccCylinder.cpp)
 target_link_libraries(OccCylinder ${OCC_LIBS} OccSolid)
+
+add_library(OccModifiedSolid OccModifiedSolid.cpp)
+target_link_libraries(OccModifiedSolid OccSolid)

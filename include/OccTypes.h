@@ -17,9 +17,10 @@ namespace Occ{
 
     using Faces = vector<Face>;
     using Edges = vector<Edge>;
-    //using uint = unsigned int;
-    //using UintPair = pair<uint, uint>;
-    //using UintPairs = vector<UintPair>;
+    using uint = unsigned int;
+    using uints = vector<uint>;
+    using UintPair = pair<uint, uint>;
+    using UintPairs = vector<UintPair>;
     //using MapUintPairs = map<uint, UintPairs>;
     
     enum class FaceName
