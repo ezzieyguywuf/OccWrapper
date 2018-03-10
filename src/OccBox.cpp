@@ -1,51 +1,18 @@
 #include <OccBox.h>
+#include <OccTypes.h>
 
 #include <TopoDS.hxx>
 
 using Occ::Box;
+using Occ::FaceName;
 
-Box::Box(double dx, double dy, double dz)
-    : myMaker(dx, dy, dz), mySolid(TopoDS::Solid(myMaker.Shape()))
+Box::Box(BRepPrimAPI_MakeBox aMaker)
+    : Occ::Primitive(TopoDS::Solid(aMaker.Shape()))
 {
-    myMappedFaces.emplace("top", Occ::Face(myMaker.TopFace()));
-    myMappedFaces.emplace("bottom", Occ::Face(myMaker.BottomFace()));
-    myMappedFaces.emplace("left", Occ::Face(myMaker.LeftFace()));
-    myMappedFaces.emplace("right", Occ::Face(myMaker.RightFace()));
-    myMappedFaces.emplace("front", Occ::Face(myMaker.FrontFace()));
-    myMappedFaces.emplace("back", Occ::Face(myMaker.BackFace()));
-}
-
-const Occ::Face& Box::top() const
-{
-    return myMappedFaces.at("top");
-}
-
-const Occ::Face& Box::bottom() const
-{
-    return myMappedFaces.at("bottom");
-}
-
-const Occ::Face& Box::left() const
-{
-    return myMappedFaces.at("left");
-}
-
-const Occ::Face& Box::right() const
-{
-    return myMappedFaces.at("right");
-}
-
-const Occ::Face& Box::front() const
-{
-    return myMappedFaces.at("front");
-}
-
-const Occ::Face& Box::back() const
-{
-    return myMappedFaces.at("back");
-}
-
-const Occ::Edges& Box::getEdges() const
-{
-    return mySolid.getEdges();
+    myNamedFaces.emplace(FaceName::top, Occ::Face(aMaker.TopFace()));
+    myNamedFaces.emplace(FaceName::bottom, Occ::Face(aMaker.BottomFace()));
+    myNamedFaces.emplace(FaceName::left, Occ::Face(aMaker.LeftFace()));
+    myNamedFaces.emplace(FaceName::right, Occ::Face(aMaker.RightFace()));
+    myNamedFaces.emplace(FaceName::front, Occ::Face(aMaker.FrontFace()));
+    myNamedFaces.emplace(FaceName::back, Occ::Face(aMaker.BackFace()));
 }

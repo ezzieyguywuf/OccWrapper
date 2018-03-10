@@ -21,5 +21,16 @@ namespace Occ{
     //using UintPair = pair<uint, uint>;
     //using UintPairs = vector<UintPair>;
     //using MapUintPairs = map<uint, UintPairs>;
+    
+    enum class FaceName
+    {
+        top,
+        bottom,
+        left,
+        right,
+        front,
+        back,
+        lateral
+    };
 }
 #endif /* ifndef OCCTYPES_H */
