@@ -7,15 +7,18 @@
 #include <OccTypes.h>
 
 #include <TopoDS_Solid.hxx>
+#include <TopoDS_Compound.hxx>
 
 namespace Occ{
     class Solid : public Shape
     {
         public:
             Solid(const TopoDS_Solid& aSolid);
+            Solid(const TopoDS_Compound& aCompound);
 
             const Faces& getFaces() const;
             const Edges& getEdges() const;
+            int getFaceIndex(const Occ::Face& aFace) const;
 
         protected:
             void processFaces();

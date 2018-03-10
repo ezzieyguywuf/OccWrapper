@@ -4,6 +4,8 @@
 #include <OccSolid.h>
 #include <OccTypes.h>
 
+#include <BRepAlgoAPI_BooleanOperation.hxx>
+
 using Occ::UintPairs;
 using Occ::uints;
 namespace Occ
@@ -11,10 +13,10 @@ namespace Occ
     class ModifiedSolid
     {
         public:
-            ModifiedSolid(Solid origSolid, Solid newSolid);
+            ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation);
 
             void addModifiedFace(uint origSolidIndex, uint newSolidIndex);
-            void addModifiedFaces(uints origSolidIndices, uint newSolidIndices);
+            void addModifiedFaces(uints origSolidIndices, uints newSolidIndices);
             //void addNewFace(uint newSolidIndex);
             //void addNewFaces(uints newSolidIndices);
             //void addDeletedFace(uint origSolidIndex);

@@ -19,9 +19,10 @@ namespace Occ{
             // Overlap, but different orientations.
             bool isSimilar(const Shape& aShape) const;
 
+            TopoDS_Shape getShape() const;
+
         protected:
             Shape(TopoDS_Shape aShape);
-            TopoDS_Shape getShape() const;
 
         private:
             TopoDS_Shape myShape;

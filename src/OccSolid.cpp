@@ -14,6 +14,13 @@ Solid::Solid(const TopoDS_Solid& aSolid)
     this->processEdges();
 }
 
+Solid::Solid(const TopoDS_Compound& aCompound)
+    : Shape(aCompound)
+{
+    this->processFaces();
+    this->processEdges();
+}
+
 const Occ::Faces& Solid::getFaces() const
 {
     return myFaces;
@@ -22,6 +29,19 @@ const Occ::Faces& Solid::getFaces() const
 const Occ::Edges& Solid::getEdges() const
 {
     return myEdges;
+}
+
+int Solid::getFaceIndex(const Occ::Face& aFace) const
+{
+    uint i = 0;
+    for (const Occ::Face& myFace : myFaces)
+    {
+        if (myFace == aFace){
+            return i;
+        }
+        i++;
+    }
+    return -1;
 }
 
 void Solid::processFaces()
