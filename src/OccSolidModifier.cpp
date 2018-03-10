@@ -10,5 +10,8 @@ Occ::ModifiedSolids SolidModifier::makeFusion(const Occ::Solid& base, const Occ:
     BRepAlgoAPI_Fuse mkFuse(base.getShape(), tool.getShape());
     ModifiedSolid modBase(base, mkFuse);
     ModifiedSolid modTool(tool, mkFuse);
-    return {modBase, modTool};
+    ModifiedSolids modSolids(Occ::Solid(TopoDS::Compound(mkFuse.Shape())));
+    modSolids.addModifiedSolid(modBase);
+    modSolids.addModifiedSolid(modTool);
+    return modSolids;
 }

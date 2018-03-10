@@ -1,15 +1,13 @@
-#include <BRepPrimAPI_MakeBox.hxx>
-#include <OccSolid.h>
-#include <TopoDS.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Solid.hxx>
+#include <OccSolidMaker.h>
+#include <OccSolidModifier.h>
+#include <OccModifiedSolid.h>
+#include <OccTypes.h>
 
 int main(void)
 {
-    BRepPrimAPI_MakeBox mkBox(10, 10, 10);
-    TopoDS_Shape aShape = mkBox.Shape();
-    TopoDS_Solid aSolid = TopoDS::Solid(aShape);
-    Occ::Solid myShape(aSolid);
+    auto box = Occ::SolidMaker::makeBox(10, 10, 10);
+    auto cyl = Occ::SolidMaker::makeCylinder(2.5, 10);
+    Occ::ModifiedSolids modifiedSolids = Occ::SolidModifier::makeFusion(box, cyl);
 
     return 0;
 }

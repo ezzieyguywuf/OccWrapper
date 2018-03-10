@@ -12,10 +12,10 @@
 using Occ::ModifiedSolid;
 
 ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation)
-    : origSolid(anOrigSolid), newSolid(TopoDS::Compound(anOperation.Shape()))
+    : myOrigSolid(anOrigSolid), myNewSolid(TopoDS::Compound(anOperation.Shape()))
 {
     uint i = 0;
-    for (const Occ::Face& occFace : origSolid.getFaces())
+    for (const Occ::Face& occFace : myOrigSolid.getFaces())
     {
         TopoDS_Face aFace = TopoDS::Face(occFace.getShape());
         TopTools_ListOfShape modified = anOperation.Modified(aFace);
@@ -24,7 +24,7 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         for(; iterator.More(); iterator.Next())
         {
             TopoDS_Face modifiedFace = TopoDS::Face(iterator.Value());
-            uint j = origSolid.getFaceIndex(modifiedFace);
+            uint j = myOrigSolid.getFaceIndex(modifiedFace);
             this->addModifiedFace(i, j);
         }
         i++;
@@ -47,4 +47,14 @@ void ModifiedSolid::addModifiedFaces(uints origSolidIndices, uints newSolidIndic
     {
         this->addModifiedFace(origSolidIndices[i], newSolidIndices[i]);
     }
+}
+
+const Occ::Solid& ModifiedSolid::getNewSolid() const
+{
+    return myNewSolid;
+}
+
+const Occ::Solid& ModifiedSolid::getOrigSolid() const
+{
+    return myOrigSolid;
 }

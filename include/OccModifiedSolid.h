@@ -22,9 +22,11 @@ namespace Occ
             //void addDeletedFace(uint origSolidIndex);
             //void addDeletedFaces(uint origSolidIndex);
 
+            const Solid& getNewSolid() const;
+            const Solid& getOrigSolid() const;
         private:
-            Solid origSolid;
-            Solid newSolid;
+            Solid myOrigSolid;
+            Solid myNewSolid;
             UintPairs modifiedFaceIndices;
             uints newFaceIndices;
             uints deletedFaceIndices;

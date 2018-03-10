@@ -2,7 +2,7 @@
 #define OCCSOLIDMODIFIER_H
 
 #include <OccSolid.h>
-#include <OccModifiedSolid.h>
+#include <OccModifiedSolids.h>
 #include <OccTypes.h>
 
 namespace Occ
@@ -13,6 +13,8 @@ namespace Occ
             virtual ~SolidModifier() = 0;
 
             static ModifiedSolids makeFusion(const Solid& base, const Solid& tool);
+        private:
+            SolidModifier() = default;
     };
 }
 

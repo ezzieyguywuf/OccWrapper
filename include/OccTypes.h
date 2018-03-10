@@ -18,7 +18,6 @@ namespace Occ{
 
     using Faces = vector<Face>;
     using Edges = vector<Edge>;
-    using ModifiedSolids = vector<ModifiedSolid>;
     using uint = unsigned int;
     using uints = vector<uint>;
     using UintPair = pair<uint, uint>;
