@@ -24,3 +24,6 @@ target_link_libraries(OccSolidModifier ${OCC_LIBS} OccModifiedSolid)
 
 add_library(OccSolidMaker OccSolidMaker.cpp)
 target_link_libraries(OccSolidMaker ${OCC_LIBS} OccBox OccCylinder)
+
+add_library(PrimitiveSolidManager PrimitiveSolidManager.cpp)
+target_link_libraries(PrimitiveSolidManager OccSolid)
