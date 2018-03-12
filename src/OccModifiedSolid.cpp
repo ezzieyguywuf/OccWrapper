@@ -1,4 +1,5 @@
 #include <OccModifiedSolid.h>
+#include <OccTypes.h>
 
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Compound.hxx>
@@ -10,6 +11,23 @@
 #include <stdexcept>
 
 using Occ::ModifiedSolid;
+
+ModifiedSolid::ModifiedSolid(Occ::Box origBox, Occ::Box newBox)
+    : myOrigSolid(origBox), myNewSolid(newBox)
+{
+    std::vector<Occ::FaceName> FaceNames = {
+        Occ::FaceName::top,
+        Occ::FaceName::bottom,
+        Occ::FaceName::left,
+        Occ::FaceName::right,
+        Occ::FaceName::front,
+        Occ::FaceName::back };
+    for (const Occ::FaceName& faceName : FaceNames)
+    {
+        this->addModifiedFace(origBox.getFaceIndex(origBox.getNamedFace(faceName)),
+                              newBox.getFaceIndex(newBox.getNamedFace(faceName)));
+    }
+}
 
 ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation)
     : myOrigSolid(anOrigSolid), myNewSolid(TopoDS::Compound(anOperation.Shape()))

@@ -2,6 +2,7 @@
 #define OCCMODIFIEDSOLID_H
 
 #include <OccSolid.h>
+#include <OccBox.h>
 #include <OccFace.h>
 #include <OccTypes.h>
 
@@ -15,6 +16,7 @@ namespace Occ
     class ModifiedSolid
     {
         public:
+            ModifiedSolid(Occ::Box origBox, Occ::Box newBox);
             ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation);
 
             void addModifiedFace(uint origSolidIndex, uint newSolidIndex);
