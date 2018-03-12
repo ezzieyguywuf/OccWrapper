@@ -104,12 +104,10 @@ bool PrimitiveSolidManager::hasFace(uint i) const
 
 void PrimitiveSolidManager::updateSolid(const Occ::ModifiedSolid& aModifiedSolid)
 {
-    if (mySolid.getFaces() != aModifiedSolid.getNewSolid().getFaces())
+    if (mySolid.getFaces() != aModifiedSolid.getOrigSolid().getFaces())
     {
         throw std::runtime_error("This ModifiedSolid does not appear to modify mySolid!");
     }
-
-    mySolid = aModifiedSolid.getNewSolid();
 
     for (const auto& pair : aModifiedSolid.getModifiedFaceIndices())
     {
@@ -122,5 +120,7 @@ void PrimitiveSolidManager::updateSolid(const Occ::ModifiedSolid& aModifiedSolid
         uint myIndex = this->getFaceIndex(origFace);
         mappedFaces[myIndex] = pair.second;
     }
+
+    mySolid = aModifiedSolid.getNewSolid();
     // TODO update with New faces and Deleted faces as well.
 }
