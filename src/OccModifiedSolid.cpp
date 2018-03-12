@@ -33,7 +33,7 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
 
 void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
 {
-    modifiedFaceIndices.push_back(std::make_pair(origSolidIndex, newSolidIndex));
+    modifiedFaceIndices.emplace(origSolidIndex, newSolidIndex);
 }
 
 void ModifiedSolid::addModifiedFaces(uints origSolidIndices, uints newSolidIndices)
@@ -57,4 +57,38 @@ const Occ::Solid& ModifiedSolid::getNewSolid() const
 const Occ::Solid& ModifiedSolid::getOrigSolid() const
 {
     return myOrigSolid;
+}
+
+uint ModifiedSolid::getModifiedFaceIndex(const Occ::Face& aFace) const
+{
+    uint i = 0;
+    for (const Occ::Face& origFace : myOrigSolid.getFaces())
+    {
+        if (origFace == aFace)
+        {
+            return modifiedFaceIndices.at(i);
+        }
+        i++;
+    }
+    throw std::runtime_error("aFace is not found within myOrigSolid.");
+}
+
+const Occ::Face& ModifiedSolid::getModifiedFace(const Occ::Face& aFace) const
+{
+    return myNewSolid.getFaces()[this->getModifiedFaceIndex(aFace)];
+}
+
+const std::map<uint, uint>& ModifiedSolid::getModifiedFaceIndices() const
+{
+    return modifiedFaceIndices;
+}
+
+const uints& ModifiedSolid::getNewFaceIndices() const
+{
+    return newFaceIndices;
+}
+
+const uints& ModifiedSolid::getDeletedFaceIndices() const
+{
+    return deletedFaceIndices;
 }

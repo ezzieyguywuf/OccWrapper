@@ -2,11 +2,13 @@
 #define OCCMODIFIEDSOLID_H
 
 #include <OccSolid.h>
+#include <OccFace.h>
 #include <OccTypes.h>
+
+#include <map>
 
 #include <BRepAlgoAPI_BooleanOperation.hxx>
 
-using Occ::UintPairs;
 using Occ::uints;
 namespace Occ
 {
@@ -24,10 +26,15 @@ namespace Occ
 
             const Solid& getNewSolid() const;
             const Solid& getOrigSolid() const;
+            const std::map<uint, uint>& getModifiedFaceIndices() const;
+            uint getModifiedFaceIndex(const Occ::Face& aFace) const;
+            const Occ::Face& getModifiedFace(const Occ::Face& aFace) const;
+            const uints& getNewFaceIndices() const;
+            const uints& getDeletedFaceIndices() const;
         private:
             Solid myOrigSolid;
             Solid myNewSolid;
-            UintPairs modifiedFaceIndices;
+            std::map<uint, uint> modifiedFaceIndices;
             uints newFaceIndices;
             uints deletedFaceIndices;
     };
