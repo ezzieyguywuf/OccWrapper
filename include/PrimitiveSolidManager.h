@@ -20,6 +20,10 @@ class PrimitiveSolidManager
         uint getFaceIndex(const Occ::Face aFace) const;
         Occ::Edge getEdgeByIndex(uint i) const;
         Occ::Face getFaceByIndex(uint i) const;
+        bool hasEdge(uint i) const;
+        bool hasFace(uint i) const;
+
+        void updateSolid(const Occ::ModifiedSolid& aModifiedSolid);
 
     private:
         Occ::Solid mySolid;
