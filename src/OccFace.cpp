@@ -29,7 +29,7 @@ bool Face::sharesEdge(const Face& aFace) const
     {
         for (const Edge& checkEdge : aFace.getEdges())
         {
-            if (myEdge == checkEdge)
+            if (myEdge.isSimilar(checkEdge))
                 return true;
         }
     }
@@ -42,7 +42,7 @@ const Occ::Edge& Face::getCommonEdge(const Face& aFace) const
     {
         for (const Edge& checkEdge : aFace.getEdges())
         {
-            if (myEdge == checkEdge)
+            if (myEdge.isSimilar(checkEdge))
                 return myEdge;
         }
     }
