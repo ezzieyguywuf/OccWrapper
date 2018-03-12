@@ -13,6 +13,12 @@ namespace Occ{
         public:
             Face(const TopoDS_Face& aFace);
             const Edges& getEdges() const;
+            // TODO perhaps return a 'hint' that can be (optionally) passed to
+            // getCommonEdge in order to so many loops?
+            bool sharesEdge(const Face& aFace) const;
+            // TOZDO perhaps allow an optional 'hint' that suggests which indices in
+            // myEdges and aFace.getEdges() are common?
+            const Edge& getCommonEdge(const Face& aFace) const;
 
         private:
             Edges myEdges;

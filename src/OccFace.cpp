@@ -22,3 +22,30 @@ const Occ::Edges& Face::getEdges() const
 {
     return myEdges;
 }
+
+bool Face::sharesEdge(const Face& aFace) const
+{
+    for (const Edge& myEdge : myEdges)
+    {
+        for (const Edge& checkEdge : aFace.getEdges())
+        {
+            if (myEdge == checkEdge)
+                return true;
+        }
+    }
+    return false;
+}
+
+const Occ::Edge& Face::getCommonEdge(const Face& aFace) const
+{
+    for (const Edge& myEdge : myEdges)
+    {
+        for (const Edge& checkEdge : aFace.getEdges())
+        {
+            if (myEdge == checkEdge)
+                return myEdge;
+        }
+    }
+    throw std::runtime_error("These two Faces do not share an Edge");
+}
+
