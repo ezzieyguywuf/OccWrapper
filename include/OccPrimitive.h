@@ -16,7 +16,7 @@ namespace Occ{
         public:
             inline Primitive(const TopoDS_Solid aSolid);
 
-            inline const Face& getFace(const FaceName& which) const;
+            inline const Face& getNamedFace(const FaceName& which) const;
 
         protected:
             std::map<FaceName, Face> myNamedFaces;
@@ -26,7 +26,7 @@ namespace Occ{
         : Solid(aSolid)
     {}
 
-    const Face& Primitive::getFace(const FaceName& which) const
+    const Face& Primitive::getNamedFace(const FaceName& which) const
     {
         return myNamedFaces.at(which);
     }
