@@ -7,6 +7,10 @@
 
 using Occ::Solid;
 
+Solid::Solid()
+    : Shape(TopoDS_Solid())
+{}
+
 Solid::Solid(const TopoDS_Solid& aSolid)
     : Shape(aSolid)
 {

@@ -5,7 +5,6 @@
 
 using Occ::Box;
 using Occ::FaceName;
-
 Box::Box(BRepPrimAPI_MakeBox aMaker)
     : Occ::Primitive(TopoDS::Solid(aMaker.Shape()))
 {

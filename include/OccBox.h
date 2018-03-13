@@ -10,6 +10,7 @@ namespace Occ{
     class Box : public Occ::Primitive
     {
         public:
+            Box() = default;
             Box(BRepPrimAPI_MakeBox aMaker);
     };
 }

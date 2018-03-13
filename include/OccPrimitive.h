@@ -14,6 +14,7 @@ namespace Occ{
     class Primitive : public Occ::Solid
     {
         public:
+            Primitive() = default;
             inline Primitive(const TopoDS_Solid aSolid);
 
             inline const Face& getNamedFace(const FaceName& which) const;
