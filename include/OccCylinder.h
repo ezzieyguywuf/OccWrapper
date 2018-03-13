@@ -10,6 +10,7 @@ namespace Occ{
     class Cylinder : public Occ::Primitive
     {
         public:
+            Cylinder() = default;
             Cylinder(BRepPrimAPI_MakeCylinder aMaker);
     };
 }

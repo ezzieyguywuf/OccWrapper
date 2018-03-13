@@ -29,6 +29,21 @@ ModifiedSolid::ModifiedSolid(Occ::Box origBox, Occ::Box newBox)
     }
 }
 
+ModifiedSolid::ModifiedSolid(Occ::Cylinder origCyl, Occ::Cylinder newCyl)
+    : myOrigSolid(origCyl), myNewSolid(newCyl)
+{
+    std::vector<Occ::FaceName> FaceNames = {
+        Occ::FaceName::top,
+        Occ::FaceName::bottom,
+        Occ::FaceName::lateral};
+    for (const Occ::FaceName& faceName : FaceNames)
+    {
+        this->addModifiedFace(origCyl.getFaceIndex(origCyl.getNamedFace(faceName)),
+                              newCyl.getFaceIndex(newCyl.getNamedFace(faceName)));
+    }
+}
+
+
 ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation)
     : myOrigSolid(anOrigSolid), myNewSolid(TopoDS::Compound(anOperation.Shape()))
 {

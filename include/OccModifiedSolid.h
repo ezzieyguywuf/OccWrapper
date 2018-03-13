@@ -3,6 +3,7 @@
 
 #include <OccSolid.h>
 #include <OccBox.h>
+#include <OccCylinder.h>
 #include <OccFace.h>
 #include <OccTypes.h>
 
@@ -17,6 +18,7 @@ namespace Occ
     {
         public:
             ModifiedSolid(Occ::Box origBox, Occ::Box newBox);
+            ModifiedSolid(Occ::Cylinder origCyl, Occ::Cylinder newCyl);
             ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation);
 
             void addModifiedFace(uint origSolidIndex, uint newSolidIndex);
