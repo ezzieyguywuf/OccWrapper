@@ -5,6 +5,7 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 AddTest("OccShapeTester" OccShape)
 AddTest("OccSolidTester" OccSolid)
+AddTest("OccModifiedSolidTester" ${OCC_LIBS} OccSolidModifier OccSolidMaker OccModifiedSolid OccBooleanSolid)
 AddTest("OccSolidModifierTester" OccSolidModifier OccSolidMaker OccBooleanSolid)
 
 add_executable("SimpleTest" "SimpleTest.cpp")

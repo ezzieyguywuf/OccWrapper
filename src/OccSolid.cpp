@@ -35,7 +35,7 @@ const Occ::Edges& Solid::getEdges() const
     return myEdges;
 }
 
-int Solid::getFaceIndex(const Occ::Face& aFace) const
+uint Solid::getFaceIndex(const Occ::Face& aFace) const
 {
     uint i = 0;
     for (const Occ::Face& myFace : myFaces)
@@ -45,7 +45,7 @@ int Solid::getFaceIndex(const Occ::Face& aFace) const
         }
         i++;
     }
-    return -1;
+    throw std::runtime_error("That face is not in this solid");
 }
 
 void Solid::processFaces()

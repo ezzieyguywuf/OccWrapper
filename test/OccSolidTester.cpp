@@ -4,6 +4,7 @@
 #include <TopExp.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <TopAbs_ShapeEnum.hxx>
+#include <TopoDS_Face.hxx>
 #include <TopoDS.hxx>
 #include "gtest/gtest.h"
 
@@ -33,4 +34,27 @@ TEST(OccShape, getEdges)
     mkBox.Build();
     Occ::Solid myShape(TopoDS::Solid(mkBox.Shape()));
     EXPECT_EQ(myShape.getEdges().size(), 12);
+}
+
+TEST(OccShape, getFaceIndex)
+{
+    BRepPrimAPI_MakeBox mkBox(10, 10, 10);
+    mkBox.Build();
+    Occ::Solid myShape(TopoDS::Solid(mkBox.Shape()));
+    Occ::Face front(mkBox.FrontFace());
+
+    EXPECT_GE(myShape.getFaceIndex(front), 0);
+    EXPECT_LE(myShape.getFaceIndex(front), 6);
+}
+
+TEST(OccShape, getFaceIndexFromCopy)
+{
+    BRepPrimAPI_MakeBox mkBox(10, 10, 10);
+    mkBox.Build();
+    Occ::Solid myShape(TopoDS::Solid(mkBox.Shape()));
+    TopoDS_Face aFace= mkBox.FrontFace();
+    Occ::Face front(aFace);
+
+    EXPECT_GE(myShape.getFaceIndex(front), 0);
+    EXPECT_LE(myShape.getFaceIndex(front), 6);
 }

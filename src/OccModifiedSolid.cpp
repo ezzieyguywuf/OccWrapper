@@ -57,7 +57,7 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         for(; iterator.More(); iterator.Next())
         {
             TopoDS_Face modifiedFace = TopoDS::Face(iterator.Value());
-            uint j = myOrigSolid.getFaceIndex(modifiedFace);
+            uint j = myNewSolid.getFaceIndex(modifiedFace);
             this->addModifiedFace(i, j);
         }
         i++;

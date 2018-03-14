@@ -9,6 +9,8 @@
 #include <TopoDS_Solid.hxx>
 #include <TopoDS_Compound.hxx>
 
+using Occ::uint;
+
 namespace Occ{
     class Solid : public Shape
     {
@@ -19,7 +21,7 @@ namespace Occ{
 
             const Faces& getFaces() const;
             const Edges& getEdges() const;
-            int getFaceIndex(const Occ::Face& aFace) const;
+            uint getFaceIndex(const Occ::Face& aFace) const;
 
         protected:
             void processFaces();
