@@ -47,11 +47,6 @@ namespace Occ
             // returns a map in which each key->value pair corresponds to an
             // OriginalSolidFace->NewSolidFace pair.
             const std::map<uint, uint>& getModifiedFaceIndices() const;
-            // returns a face in the new solid which corresponds to `aFace` in the
-            // original solid.
-            //
-            // throws std::runtime_error if aFace is not in myOrigSolid.
-            const Occ::Face& getModifiedFace(const Occ::Face& aFace) const;
             // returns a vector of indices. Each of these indices represents a face in the
             // `myNewSolid.getFaces()` vector which is new.
             const uints& getNewFaceIndices() const;

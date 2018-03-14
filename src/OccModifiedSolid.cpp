@@ -64,7 +64,7 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
     }
 }
 
-bool ModifiedFace::isModified(const Occ::Face& aFace)
+bool ModifiedSolid::isModified(const Occ::Face& aFace) const
 {
     for (const auto& data : modifiedFaceIndices)
     {
@@ -75,19 +75,6 @@ bool ModifiedFace::isModified(const Occ::Face& aFace)
         }
     }
     return false;
-}
-
-const Occ::Face& ModifiedFace::getModifiedFace(const Occ::Face& aFace)
-{
-    for (const auto& data : modifiedFaceIndices)
-    {
-        const Occ::Face& origFace = this->myOrigSolid.getFaces()[data.first];
-        if (origFace == aFace)
-        {
-            return this->myNewSolid.getFaces()[data.second];
-        }
-    }
-    throw std::runtime_error("That face does not appear to have been modified.")
 }
 
 void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
