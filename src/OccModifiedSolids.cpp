@@ -27,3 +27,27 @@ const Occ::Solid& ModifiedSolids::getNewSolid() const
 {
     return myNewSolid;
 }
+
+pair<uint, uint> ModifiedSolids::getConstituentFace(const Occ::Face& aFace) const
+{
+    uint i = 0;
+    for (const Occ::ModifiedSolid& modSolid : baseSolids)
+    {
+        uint j = 0;
+        for (const Occ::Face& origFace : modSolid.getOrigSolid().getFaces())
+        {
+            if (modSolid.isModified(origFace))
+            {
+                uint k = modSolid.getModifiedFaceIndices().at(j);
+                const Occ::Face& newFace = modSolid.getNewSolid().getFaces()[k];
+                if (aFace == newFace)
+                {
+                    return {i, j};
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+    throw std::runtime_error("Was unable to find a constituent face.");
+}
