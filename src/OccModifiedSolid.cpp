@@ -64,37 +64,6 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
     }
 }
 
-bool ModifiedSolid::isModified(const Occ::Face& aFace) const
-{
-    for (const auto& data : modifiedFaceIndices)
-    {
-        const Occ::Face& origFace = this->myOrigSolid.getFaces()[data.first];
-        if (origFace == aFace)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
-{
-    modifiedFaceIndices.emplace(origSolidIndex, newSolidIndex);
-}
-
-void ModifiedSolid::addModifiedFaces(uints origSolidIndices, uints newSolidIndices)
-{
-    if (origSolidIndices.size() != newSolidIndices.size())
-    {
-        throw std::invalid_argument("Both vectors must be of the same length");
-    }
-
-    for (uint i = 0; i < origSolidIndices.size(); i++)
-    {
-        this->addModifiedFace(origSolidIndices[i], newSolidIndices[i]);
-    }
-}
-
 const Occ::Solid& ModifiedSolid::getNewSolid() const
 {
     return myNewSolid;
@@ -105,36 +74,65 @@ const Occ::Solid& ModifiedSolid::getOrigSolid() const
     return myOrigSolid;
 }
 
-uint ModifiedSolid::getModifiedFaceIndex(const Occ::Face& aFace) const
+vector<Occ::Face> ModifiedSolid::getModifiedFaces(const Occ::Face& aFace) const
+{
+    for (const auto& vals : modifiedFaces)
+    {
+        const Occ::Face& checkFace = myOrigSolid.getFaces()[vals.first];
+        if (checkFace == aFace)
+        {
+            vector<Occ::Face> outFaces;
+            for (uint i : vals.second)
+            {
+                outFaces.push_back(myNewSolid.getFaces()[i]);
+            }
+            return outFaces;
+        }
+    }
+    if (not (this->isDeleted(aFace)))
+    {
+        return {aFace};
+    }
+    return {};
+}
+
+//--------------------------------------------------
+//----- Private Methods ----------------------------
+//--------------------------------------------------
+
+void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
+{
+    modifiedFaces[origSolidIndex].push_back(newSolidIndex);
+}
+
+const vector<uint>& ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
 {
     uint i = 0;
     for (const Occ::Face& origFace : myOrigSolid.getFaces())
     {
         if (origFace == aFace)
         {
-            return modifiedFaceIndices.at(i);
+            return modifiedFaces.at(i);
         }
         i++;
     }
     throw std::runtime_error("aFace is not found within myOrigSolid.");
 }
 
-const Occ::Face& ModifiedSolid::getModifiedFace(const Occ::Face& aFace) const
+bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
 {
-    return myNewSolid.getFaces()[this->getModifiedFaceIndex(aFace)];
+    for (uint i : deletedFaces)
+    {
+        const Occ::Face& checkFace = myOrigSolid.getFaces()[i];
+        if (aFace == checkFace)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
-const std::map<uint, uint>& ModifiedSolid::getModifiedFaceIndices() const
-{
-    return modifiedFaceIndices;
-}
-
-const uints& ModifiedSolid::getNewFaceIndices() const
-{
-    return newFaceIndices;
-}
-
-const uints& ModifiedSolid::getDeletedFaceIndices() const
-{
-    return deletedFaceIndices;
-}
+//const Occ::Face& ModifiedSolid::getModifiedFace(const Occ::Face& aFace) const
+//{
+    //return myNewSolid.getFaces()[this->getModifiedFaceIndex(aFace)];
+//}
