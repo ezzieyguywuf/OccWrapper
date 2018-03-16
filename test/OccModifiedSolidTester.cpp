@@ -33,15 +33,13 @@ TEST(OccModifiedSolid, oneToOneFaceModification)
 
     // ms = Modified Solid
     Occ::ModifiedSolid ms(box, mkFuse);
-    // nf = New Faces
-    const vector<Occ::Face>& nf = ms.getNewSolid().getFaces();
 
     const Occ::Face& back = box.getNamedFace(Occ::FaceName::back);
     const Occ::Face& left = box.getNamedFace(Occ::FaceName::left);
 
     // ASSERT values determined manually via FreeCAD
-    EXPECT_THAT(ms.getModifiedFaces(back), ElementsAreArray({nf[4]}));
-    EXPECT_THAT(ms.getModifiedFaces(left), ElementsAreArray({nf[5]}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(back), ElementsAreArray({4}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(left), ElementsAreArray({5}));
 }
 
 TEST(OccModifiedSolid, oneToManyFaceModification)
@@ -53,15 +51,13 @@ TEST(OccModifiedSolid, oneToManyFaceModification)
 
     // ms = Modified Solid
     Occ::ModifiedSolid ms(box, mkFuse);
-    // nf = New Faces
-    const vector<Occ::Face>& nf = ms.getNewSolid().getFaces();
 
     const Occ::Face& top = box.getNamedFace(Occ::FaceName::top);
     const Occ::Face& bottom = box.getNamedFace(Occ::FaceName::bottom);
 
     // ASSERT values determined manually via FreeCAD
-    EXPECT_THAT(ms.getModifiedFaces(top), ElementsAreArray({nf[7], nf[3]}));
-    EXPECT_THAT(ms.getModifiedFaces(bottom), ElementsAreArray({nf[6], nf[1]}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(top), ElementsAreArray({7, 3}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(bottom), ElementsAreArray({6, 1}));
 }
 
 TEST(OccModifiedSolid, noFaceModification)
@@ -73,13 +69,11 @@ TEST(OccModifiedSolid, noFaceModification)
 
     // ms = Modified Solid
     Occ::ModifiedSolid ms(box, mkFuse);
-    // nf = New Faces
-    const vector<Occ::Face>& nf = ms.getNewSolid().getFaces();
 
     const Occ::Face& front = box.getNamedFace(Occ::FaceName::front);
     const Occ::Face& right = box.getNamedFace(Occ::FaceName::right);
 
     // ASSERT values determined manually via FreeCAD
-    EXPECT_THAT(ms.getModifiedFaces(front), ElementsAreArray({nf[2]}));
-    EXPECT_THAT(ms.getModifiedFaces(right), ElementsAreArray({nf[0]}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(front), ElementsAreArray({2}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(right), ElementsAreArray({0}));
 }

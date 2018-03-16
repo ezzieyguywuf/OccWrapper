@@ -6,15 +6,14 @@
 #include <OccCylinder.h>
 #include <OccFace.h>
 #include <OccTypes.h>
-#include <OccFaceComparator.h>
 
 #include <map>
-#include <set>
+#include <vector>
 
 #include <BRepAlgoAPI_BooleanOperation.hxx>
 
 using Occ::uints;
-using std::set;
+using std::vector;
 namespace Occ
 {
     class ModifiedSolid
@@ -28,17 +27,14 @@ namespace Occ
             const Solid& getNewSolid() const;
             // return the original Occ::Solid
             const Solid& getOrigSolid() const;
-            // return the list of faces which aFace was modified into. Note that this
-            // vector will be of length 0 if aFace was not modified at all.
-            set<Occ::Face, Occ::FaceComparator> getModifiedFaces(const Occ::Face& aFace) const;
+            // Returns a vector of indices which correspond to faces in myNewSolid. These
+            // faces represent modification(s) of aFace.
+            //
+            // throws std::runtime_error if aFace is not in myOrigSolid
+            vector<uint> getModifiedFaceIndices(const Occ::Face& aFace) const;
 
         private:
-            // Given `aFace`, this method returns a key which can be used in the
-            // modifiedFacesIndices to retrieve the face in the new solid which `aFace`
-            // (from the original solid) corresponds to.
-            //
-            // throws std::runtime_error if aFace is not in myOrigSolid.
-            const vector<uint>& getModifiedFaceIndices(const Occ::Face& aFace) const;
+            uint getNewFaceIndex(const Occ::Face& aFace) const;
             void addModifiedFace(uint origSolidIndex, uint newSolidIndex);
             void addModifiedFaces(uints origSolidIndices, uints newSolidIndices);
             //void addNewFace(uint newSolidIndex);

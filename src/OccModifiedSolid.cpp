@@ -74,49 +74,48 @@ const Occ::Solid& ModifiedSolid::getOrigSolid() const
     return myOrigSolid;
 }
 
-set<Occ::Face, Occ::FaceComparator> ModifiedSolid::getModifiedFaces(const Occ::Face& aFace) const
+vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
 {
-    for (const auto& vals : modifiedFaces)
+    for (const auto& pair : modifiedFaces)
     {
-        const Occ::Face& checkFace = myOrigSolid.getFaces()[vals.first];
-        if (checkFace == aFace)
+        const Occ::Face& origFace = myOrigSolid.getFaces().at(pair.first);
+        if (origFace == aFace)
         {
-            set<Occ::Face, Occ::FaceComparator> outFaces;
-            for (uint i : vals.second)
-            {
-                outFaces.insert(myNewSolid.getFaces()[i]);
-            }
-            return outFaces;
+            return pair.second;
         }
     }
+
+    // If the face was not modified nor was it deleted, then it must have remained
+    // unchanged. We'll find the new index and return that.
     if (not (this->isDeleted(aFace)))
     {
-        return {aFace};
+        return {this->getNewFaceIndex(aFace)};
     }
-    return {};
+    throw std::runtime_error("Face was not modified or deleted, and yet I was unable to find it.");
 }
+
 
 //--------------------------------------------------
 //----- Private Methods ----------------------------
 //--------------------------------------------------
 
-void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
-{
-    modifiedFaces[origSolidIndex].push_back(newSolidIndex);
-}
-
-const vector<uint>& ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
+uint ModifiedSolid::getNewFaceIndex(const Occ::Face& aFace) const
 {
     uint i = 0;
-    for (const Occ::Face& origFace : myOrigSolid.getFaces())
+    for (const Occ::Face& newFace : myNewSolid.getFaces())
     {
-        if (origFace == aFace)
+        if (aFace == newFace)
         {
-            return modifiedFaces.at(i);
+            return i;
         }
         i++;
     }
-    throw std::runtime_error("aFace is not found within myOrigSolid.");
+    throw std::runtime_error("aFace does not appear in myNewSolid.");
+}
+
+void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
+{
+    modifiedFaces[origSolidIndex].push_back(newSolidIndex);
 }
 
 bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
