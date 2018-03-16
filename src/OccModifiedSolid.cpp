@@ -94,7 +94,23 @@ vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
     throw std::runtime_error("Face was not modified or deleted, and yet I was unable to find it.");
 }
 
+bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
+{
+    for (uint i : deletedFaces)
+    {
+        const Occ::Face& checkFace = myOrigSolid.getFaces()[i];
+        if (aFace == checkFace)
+        {
+            return true;
+        }
+    }
+    return false;
+}
 
+const vector<uint>& ModifiedSolid::getNewFaceIndices() const
+{
+    return newFaces;
+}
 //--------------------------------------------------
 //----- Private Methods ----------------------------
 //--------------------------------------------------
@@ -116,19 +132,6 @@ uint ModifiedSolid::getNewFaceIndex(const Occ::Face& aFace) const
 void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
 {
     modifiedFaces[origSolidIndex].push_back(newSolidIndex);
-}
-
-bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
-{
-    for (uint i : deletedFaces)
-    {
-        const Occ::Face& checkFace = myOrigSolid.getFaces()[i];
-        if (aFace == checkFace)
-        {
-            return true;
-        }
-    }
-    return false;
 }
 
 //const Occ::Face& ModifiedSolid::getModifiedFace(const Occ::Face& aFace) const

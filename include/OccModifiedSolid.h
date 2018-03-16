@@ -32,6 +32,9 @@ namespace Occ
             //
             // throws std::runtime_error if aFace is not in myOrigSolid
             vector<uint> getModifiedFaceIndices(const Occ::Face& aFace) const;
+            // Checks whether or ont aFace was deleted.
+            bool isDeleted(const Occ::Face& aFace) const;
+            const vector<uint>& getNewFaceIndices() const;
 
         private:
             uint getNewFaceIndex(const Occ::Face& aFace) const;
@@ -41,7 +44,6 @@ namespace Occ
             //void addNewFaces(uints newSolidIndices);
             //void addDeletedFace(uint origSolidIndex);
             //void addDeletedFaces(uint origSolidIndex);
-            bool isDeleted(const Occ::Face& aFace) const;
 
 
             Solid myOrigSolid;
