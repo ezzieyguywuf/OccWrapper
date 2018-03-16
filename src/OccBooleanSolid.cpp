@@ -19,7 +19,7 @@ const std::vector<Occ::ModifiedSolid>& BooleanSolid::getModifiedSolids() const
     return myBaseSolids;
 }
 
-pair<uint, uint> BooleanSolid::getConstituentFace(const Occ::Face& aFace) const
+array<uint, 3> BooleanSolid::getConstituentFace(const Occ::Face& aFace) const
 {
     uint i = 0;
     for (const Occ::ModifiedSolid& modSolid : myBaseSolids)
@@ -27,12 +27,15 @@ pair<uint, uint> BooleanSolid::getConstituentFace(const Occ::Face& aFace) const
         uint j = 0;
         for (const Occ::Face& origFace : modSolid.getOrigSolid().getFaces())
         {
-            for (const Occ::Face& checkFace : modSolid.getModifiedFaces(origFace))
+            uint k = 0;
+            for (uint index : modSolid.getModifiedFaceIndices(origFace))
             {
+                const Occ::Face& checkFace = this->getFaces()[index];
                 if (checkFace == aFace)
                 {
-                   return {i, j}; 
+                   return {i, j, k}; 
                 }
+                k++;
             }
             j++;
         }

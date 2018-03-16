@@ -3,11 +3,13 @@
 
 #include <OccSolid.h>
 #include <OccModifiedSolid.h>
+#include <OccTypes.h>
 
 #include <utility> // for std::pair
-#include <vector>
+#include <array>
 
-using uint = unsigned int;
+using Occ::uint;
+using std::array;
 
 namespace Occ
 {
@@ -18,13 +20,21 @@ namespace Occ
 
             const std::vector<Occ::ModifiedSolid>& getModifiedSolids() const;
 
-            // Finds which baseSolid, as well as which face in that baseSolid, produced
-            // the given aFace in myBaseSolids.getNewSolid(). The return value is a pair (i,j),
-            // in which i refers to the index of the baseSolid and j refers to the face
-            // within that base solid.
+            // Finds which face was modified to create aFace. The return value is a
+            // triplet (i, j, k) which designates whwere aFace originated:
+            //     i = which myBaseSolid
+            //     j = which face within myBaseSolid[i]
+            //     k = which face originating form j
+            //
+            // These values can be used as follows to retrieve aFace:
+            //
+            //     auto mod = getModifiedSolids()[i];
+            //     auto face = mod.getOrigSolid().getFaces()[j];
+            //     uint x = mod.getModifiedFaceIndices(face)[k];
+            //     Occ::Face aFace = mod.getNewSolid().getFaces()[x];
             //
             // throws std::runtime_error if aFace is not in myNewSolid
-            std::pair<uint, uint> getConstituentFace(const Occ::Face& aFace) const;
+            array<uint, 3> getConstituentFace(const Occ::Face& aFace) const;
 
         private:
             std::vector<Occ::ModifiedSolid> myBaseSolids;
