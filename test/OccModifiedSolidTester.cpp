@@ -15,7 +15,6 @@
 using std::array;
 using std::vector;
 using ::testing::ElementsAreArray;
-using ::testing::Contains;
 
 TEST(OccModifiedSolid, twoBoxes){
     Occ::Box box1 = Occ::SolidMaker::makeBox(10, 10, 10);
@@ -41,8 +40,8 @@ TEST(OccModifiedSolid, oneToOneFaceModification)
     const Occ::Face& left = box.getNamedFace(Occ::FaceName::left);
 
     // ASSERT values determined manually via FreeCAD
-    ASSERT_THAT(ms.getModifiedFaces(back), ElementsAreArray({nf[4]}));
-    ASSERT_THAT(ms.getModifiedFaces(left), ElementsAreArray({nf[5]}));
+    EXPECT_THAT(ms.getModifiedFaces(back), ElementsAreArray({nf[4]}));
+    EXPECT_THAT(ms.getModifiedFaces(left), ElementsAreArray({nf[5]}));
 }
 
 TEST(OccModifiedSolid, oneToManyFaceModification)
@@ -61,10 +60,8 @@ TEST(OccModifiedSolid, oneToManyFaceModification)
     const Occ::Face& bottom = box.getNamedFace(Occ::FaceName::bottom);
 
     // ASSERT values determined manually via FreeCAD
-    ASSERT_THAT(ms.getModifiedFaces(top), Contains(nf[3]));
-    ASSERT_THAT(ms.getModifiedFaces(top), Contains(nf[7]));
-    ASSERT_THAT(ms.getModifiedFaces(bottom), Contains(nf[1]));
-    ASSERT_THAT(ms.getModifiedFaces(bottom), Contains(nf[6]));
+    EXPECT_THAT(ms.getModifiedFaces(top), ElementsAreArray({nf[7], nf[3]}));
+    EXPECT_THAT(ms.getModifiedFaces(bottom), ElementsAreArray({nf[6], nf[1]}));
 }
 
 TEST(OccModifiedSolid, noFaceModification)
@@ -83,6 +80,6 @@ TEST(OccModifiedSolid, noFaceModification)
     const Occ::Face& right = box.getNamedFace(Occ::FaceName::right);
 
     // ASSERT values determined manually via FreeCAD
-    ASSERT_THAT(ms.getModifiedFaces(front), ElementsAreArray({nf[2]}));
-    ASSERT_THAT(ms.getModifiedFaces(right), ElementsAreArray({nf[0]}));
+    EXPECT_THAT(ms.getModifiedFaces(front), ElementsAreArray({nf[2]}));
+    EXPECT_THAT(ms.getModifiedFaces(right), ElementsAreArray({nf[0]}));
 }

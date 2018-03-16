@@ -9,7 +9,7 @@ BooleanSolid::BooleanSolid(Occ::Solid aNewSolid, vector<Occ::ModifiedSolid> base
     {
         if (modSolid.getNewSolid() != *this)
         {
-            throw std::runtime_error("Each Occ::ModifiedSolid MUST have a newSolid that is the asem as *this");
+            throw std::runtime_error("Each Occ::ModifiedSolid MUST have a newSolid that is the same as *this");
         }
     }
 }
@@ -27,13 +27,11 @@ pair<uint, uint> BooleanSolid::getConstituentFace(const Occ::Face& aFace) const
         uint j = 0;
         for (const Occ::Face& origFace : modSolid.getOrigSolid().getFaces())
         {
-            if (modSolid.isModified(origFace))
+            for (const Occ::Face& checkFace : modSolid.getModifiedFaces(origFace))
             {
-                uint k = modSolid.getModifiedFaceIndices().at(j);
-                const Occ::Face& newFace = modSolid.getNewSolid().getFaces()[k];
-                if (aFace == newFace)
+                if (checkFace == aFace)
                 {
-                    return {i, j};
+                   return {i, j}; 
                 }
             }
             j++;

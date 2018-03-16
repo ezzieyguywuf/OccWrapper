@@ -6,12 +6,15 @@
 #include <OccCylinder.h>
 #include <OccFace.h>
 #include <OccTypes.h>
+#include <OccFaceComparator.h>
 
 #include <map>
+#include <set>
 
 #include <BRepAlgoAPI_BooleanOperation.hxx>
 
 using Occ::uints;
+using std::set;
 namespace Occ
 {
     class ModifiedSolid
@@ -27,7 +30,8 @@ namespace Occ
             const Solid& getOrigSolid() const;
             // return the list of faces which aFace was modified into. Note that this
             // vector will be of length 0 if aFace was not modified at all.
-            vector<Occ::Face> getModifiedFaces(const Occ::Face& aFace) const;
+            set<Occ::Face, Occ::FaceComparator> getModifiedFaces(const Occ::Face& aFace) const;
+
         private:
             // Given `aFace`, this method returns a key which can be used in the
             // modifiedFacesIndices to retrieve the face in the new solid which `aFace`

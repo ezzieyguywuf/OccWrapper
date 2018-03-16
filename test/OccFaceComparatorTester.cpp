@@ -41,5 +41,5 @@ TEST(OccFaceComparator, compareFusedFaces)
 
     Occ::FaceComparator comp;
 
-    EXPECT_TRUE(comp(top1, top2));;
+    EXPECT_TRUE(comp(top2, top1));;
 }

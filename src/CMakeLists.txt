@@ -14,7 +14,7 @@ add_library(OccCylinder OccCylinder.cpp)
 target_link_libraries(OccCylinder ${OCC_LIBS} OccSolid)
 
 add_library(OccModifiedSolid OccModifiedSolid.cpp)
-target_link_libraries(OccModifiedSolid OccSolid OccBox)
+target_link_libraries(OccModifiedSolid OccSolid OccBox OccFaceComparator)
 
 add_library(OccBooleanSolid OccBooleanSolid.cpp)
 target_link_libraries(OccBooleanSolid OccModifiedSolid OccSolid)
@@ -24,3 +24,6 @@ target_link_libraries(OccSolidModifier ${OCC_LIBS} OccModifiedSolid)# OccBoolean
 
 add_library(OccSolidMaker OccSolidMaker.cpp)
 target_link_libraries(OccSolidMaker ${OCC_LIBS} OccBox OccCylinder)
+
+add_library(OccFaceComparator OccFaceComparator.cpp)
+target_link_libraries(OccFaceComparator ${OCC_LIBS} OccFace)

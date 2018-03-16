@@ -74,17 +74,17 @@ const Occ::Solid& ModifiedSolid::getOrigSolid() const
     return myOrigSolid;
 }
 
-vector<Occ::Face> ModifiedSolid::getModifiedFaces(const Occ::Face& aFace) const
+set<Occ::Face, Occ::FaceComparator> ModifiedSolid::getModifiedFaces(const Occ::Face& aFace) const
 {
     for (const auto& vals : modifiedFaces)
     {
         const Occ::Face& checkFace = myOrigSolid.getFaces()[vals.first];
         if (checkFace == aFace)
         {
-            vector<Occ::Face> outFaces;
+            set<Occ::Face, Occ::FaceComparator> outFaces;
             for (uint i : vals.second)
             {
-                outFaces.push_back(myNewSolid.getFaces()[i]);
+                outFaces.insert(myNewSolid.getFaces()[i]);
             }
             return outFaces;
         }
