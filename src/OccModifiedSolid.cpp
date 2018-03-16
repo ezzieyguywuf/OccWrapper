@@ -7,7 +7,7 @@
 #include <TopTools_ListOfShape.hxx>
 #include <TopTools_ListIteratorOfListOfShape.hxx>
 
-#include <utility> // for std::make_pair
+#include <algorithm> // for std::sort
 #include <stdexcept>
 
 using Occ::ModifiedSolid;
@@ -57,7 +57,7 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         if (anOperation.IsDeleted(aFace))
         {
             // if deleted, add to deletedFaces and move on to the next face
-            deletedFaces.insert(i);
+            deletedFaces.push_back(i);
             i++;
             continue;
         }
@@ -95,7 +95,7 @@ const Occ::Solid& ModifiedSolid::getOrigSolid() const
     return myOrigSolid;
 }
 
-const set<uint>& ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
+vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
 {
     for (const auto& pair : modifiedFaces)
     {
@@ -122,7 +122,7 @@ bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
     return false;
 }
 
-const set<uint>& ModifiedSolid::getNewFaceIndices() const
+const vector<uint>& ModifiedSolid::getNewFaceIndices() const
 {
     return newFaces;
 }
@@ -146,7 +146,9 @@ uint ModifiedSolid::getNewFaceIndex(const Occ::Face& aFace) const
 
 void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
 {
-    modifiedFaces[origSolidIndex].insert(newSolidIndex);
+    vector<uint>& myVec = modifiedFaces[origSolidIndex];
+    myVec.push_back(newSolidIndex);
+    std::sort(myVec.begin(), myVec.end());
 }
 
 //const Occ::Face& ModifiedSolid::getModifiedFace(const Occ::Face& aFace) const
