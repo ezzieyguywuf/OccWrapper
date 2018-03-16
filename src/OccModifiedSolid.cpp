@@ -50,7 +50,18 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
     uint i = 0;
     for (const Occ::Face& occFace : myOrigSolid.getFaces())
     {
+        // TODO do something with generated (i.e. new) faces.
+
         TopoDS_Face aFace = TopoDS::Face(occFace.getShape());
+        
+        if (anOperation.IsDeleted(aFace))
+        {
+            // if deleted, add to deletedFaces and move on to the next face
+            deletedFaces.push_back(i);
+            i++;
+            continue;
+        }
+
         TopTools_ListOfShape modified = anOperation.Modified(aFace);
         TopTools_ListIteratorOfListOfShape iterator(modified);
 
@@ -59,6 +70,15 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
             TopoDS_Face modifiedFace = TopoDS::Face(iterator.Value());
             uint j = myNewSolid.getFaceIndex(modifiedFace);
             this->addModifiedFace(i, j);
+        }
+
+        if (modified.Extent() == 0)
+        {
+            // If not deleted or modified, then the face is the same in the new solid.
+            // We'll find that index and add it to our modifiedFaces map.
+            this->addModifiedFace(i, this->getNewFaceIndex(aFace));
+            i++;
+            continue;
         }
         i++;
     }
@@ -85,12 +105,6 @@ vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
         }
     }
 
-    // If the face was not modified nor was it deleted, then it must have remained
-    // unchanged. We'll find the new index and return that.
-    if (not (this->isDeleted(aFace)))
-    {
-        return {this->getNewFaceIndex(aFace)};
-    }
     throw std::runtime_error("Face was not modified or deleted, and yet I was unable to find it.");
 }
 
