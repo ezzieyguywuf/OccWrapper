@@ -36,6 +36,18 @@ bool Face::sharesEdge(const Face& aFace) const
     return false;
 }
 
+bool Face::containsEdge(const Edge& anEdge) const
+{
+    for (const Edge& checkEdge : myEdges)
+    {
+        if (checkEdge == anEdge)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 const Occ::Edge& Face::getCommonEdge(const Face& aFace) const
 {
     for (const Edge& myEdge : myEdges)

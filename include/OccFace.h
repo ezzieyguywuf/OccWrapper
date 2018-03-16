@@ -16,6 +16,7 @@ namespace Occ{
             // TODO perhaps return a 'hint' that can be (optionally) passed to
             // getCommonEdge in order to so many loops?
             bool sharesEdge(const Face& aFace) const;
+            bool containsEdge(const Edge& anEdge) const;
             // TOZDO perhaps allow an optional 'hint' that suggests which indices in
             // myEdges and aFace.getEdges() are common?
             const Edge& getCommonEdge(const Face& aFace) const;
