@@ -75,7 +75,8 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         if (modified.Extent() == 0)
         {
             // If not deleted or modified, then the face is the same in the new solid.
-            // We'll find that index and add it to our modifiedFaces map.
+            // Despite being topologically equivalent, we must still treat it as modified
+            // as it will likely have a new index.
             this->addModifiedFace(i, this->getNewFaceIndex(aFace));
             i++;
             continue;
