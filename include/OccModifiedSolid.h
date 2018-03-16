@@ -8,12 +8,12 @@
 #include <OccTypes.h>
 
 #include <map>
-#include <vector>
+#include <set>
 
 #include <BRepAlgoAPI_BooleanOperation.hxx>
 
 using Occ::uints;
-using std::vector;
+using std::set;
 namespace Occ
 {
     class ModifiedSolid
@@ -27,14 +27,14 @@ namespace Occ
             const Solid& getNewSolid() const;
             // return the original Occ::Solid
             const Solid& getOrigSolid() const;
-            // Returns a vector of indices which correspond to faces in myNewSolid. These
+            // Returns a set of indices which correspond to faces in myNewSolid. These
             // faces represent modification(s) of aFace.
             //
             // throws std::runtime_error if aFace is not in myOrigSolid
-            vector<uint> getModifiedFaceIndices(const Occ::Face& aFace) const;
+            const set<uint>& getModifiedFaceIndices(const Occ::Face& aFace) const;
             // Checks whether or ont aFace was deleted.
             bool isDeleted(const Occ::Face& aFace) const;
-            const vector<uint>& getNewFaceIndices() const;
+            const set<uint>& getNewFaceIndices() const;
 
         private:
             uint getNewFaceIndex(const Occ::Face& aFace) const;
@@ -50,12 +50,12 @@ namespace Occ
             Solid myNewSolid;
             // each face in myOrigSolid (i), can be modifieds into one or more faces in
             // myNewSolid (j, k, etc...). This is stored as:
-            // map.at(i) = vector(j, k, etc...)
-            std::map<uint, vector<uint>> modifiedFaces;
-            // a vector of indices to myNewSolid.getFaces() which are generated faces
-            uints newFaces;
-            // a vector of indices to the myOrigSolid.getFaces() which have been deleted
-            uints deletedFaces;
+            // map.at(i) = set(j, k, etc...)
+            std::map<uint, set<uint>> modifiedFaces;
+            // a set of indices to myNewSolid.getFaces() which are generated faces
+            set<uint> newFaces;
+            // a set of indices to the myOrigSolid.getFaces() which have been deleted
+            set<uint> deletedFaces;
 
     };
 }

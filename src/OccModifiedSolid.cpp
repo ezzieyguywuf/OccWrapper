@@ -57,7 +57,7 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         if (anOperation.IsDeleted(aFace))
         {
             // if deleted, add to deletedFaces and move on to the next face
-            deletedFaces.push_back(i);
+            deletedFaces.insert(i);
             i++;
             continue;
         }
@@ -95,7 +95,7 @@ const Occ::Solid& ModifiedSolid::getOrigSolid() const
     return myOrigSolid;
 }
 
-vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
+const set<uint>& ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
 {
     for (const auto& pair : modifiedFaces)
     {
@@ -122,7 +122,7 @@ bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
     return false;
 }
 
-const vector<uint>& ModifiedSolid::getNewFaceIndices() const
+const set<uint>& ModifiedSolid::getNewFaceIndices() const
 {
     return newFaces;
 }
@@ -146,7 +146,7 @@ uint ModifiedSolid::getNewFaceIndex(const Occ::Face& aFace) const
 
 void ModifiedSolid::addModifiedFace(uint origSolidIndex, uint newSolidIndex)
 {
-    modifiedFaces[origSolidIndex].push_back(newSolidIndex);
+    modifiedFaces[origSolidIndex].insert(newSolidIndex);
 }
 
 //const Occ::Face& ModifiedSolid::getModifiedFace(const Occ::Face& aFace) const

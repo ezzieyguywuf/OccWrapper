@@ -56,8 +56,8 @@ TEST(OccModifiedSolid, oneToManyFaceModification)
     const Occ::Face& bottom = box.getNamedFace(Occ::FaceName::bottom);
 
     // ASSERT values determined manually via FreeCAD
-    EXPECT_THAT(ms.getModifiedFaceIndices(top), ElementsAreArray({7, 3}));
-    EXPECT_THAT(ms.getModifiedFaceIndices(bottom), ElementsAreArray({6, 1}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(top), ElementsAreArray({3, 7}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(bottom), ElementsAreArray({1, 6}));
 }
 
 TEST(OccModifiedSolid, noFaceModification)
