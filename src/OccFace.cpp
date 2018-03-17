@@ -40,7 +40,7 @@ bool Face::containsEdge(const Edge& anEdge) const
 {
     for (const Edge& checkEdge : myEdges)
     {
-        if (checkEdge == anEdge)
+        if (checkEdge.isSimilar(anEdge))
         {
             return true;
         }
