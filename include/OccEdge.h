@@ -3,17 +3,19 @@
 
 #include <OccShape.h>
 #include <TopoDS_Edge.hxx>
+#include <Precision.hxx>
 
 namespace Occ{
     class Edge : public Shape
     {
         public:
-            inline Edge(const TopoDS_Edge& aEdge);
+            Edge(const TopoDS_Edge& aEdge);
+            // Checks if a (potentially topologically distinct) anEdge geometrically
+            // ovelaps with *this.
+            bool overlaps(const Occ::Edge& anEdge, 
+                          double tolerance=Precision::Confusion()) const;
     };
 
-    Edge::Edge(const TopoDS_Edge& aEdge)
-        : Shape(aEdge)
-    {}
 }
 
 #endif /* OCCEdge_H */

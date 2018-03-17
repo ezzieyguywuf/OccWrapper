@@ -4,6 +4,7 @@ add_subdirectory(googletest)
 include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
 
+AddTest("OccEdgeTester" ${OCC_LIBS} OccEdge OccSolid OccSolidMaker)
 AddTest("OccShapeTester" OccShape)
 AddTest("OccSolidTester" OccSolid)
 AddTest("OccModifiedSolidTester" ${OCC_LIBS} OccSolidMaker OccModifiedSolid)

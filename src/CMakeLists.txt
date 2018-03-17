@@ -1,3 +1,6 @@
+add_library(OccEdge OccEdge.cpp)
+target_link_libraries(OccEdge ${OCC_LIBS})
+
 add_library(OccShape OccShape.cpp)
 target_link_libraries(OccShape ${OCC_LIBS})
 
