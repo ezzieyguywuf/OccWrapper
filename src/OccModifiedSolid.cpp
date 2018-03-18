@@ -9,8 +9,10 @@
 
 #include <algorithm> // for std::sort
 #include <stdexcept>
+#include <vector>
 
 using Occ::ModifiedSolid;
+using std::vector;
 
 ModifiedSolid::ModifiedSolid(Occ::Box origBox, Occ::Box newBox)
     : myOrigSolid(origBox), myNewSolid(newBox)
@@ -83,6 +85,65 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         }
         i++;
     }
+}
+
+ModifiedSolid::ModifiedSolid(Solid origSolid,
+                             Solid newSolid, 
+                             map<uint, vector<uint>> newModifiedFaces, 
+                             uints newdDeletedFaces, 
+                             uints newNewFaces)
+{
+    vector<bool> checkOrig;
+    vector<bool> checkNew;
+
+    const int size1 = origSolid.getFaces().size() - 1;
+    const int size2 = newSolid.getFaces().size() - 1;
+
+    checkOrig.reserve(size1);
+    checkNew.reserve(size2);
+
+    std::fill(checkOrig.begin(), checkOrig.end(), false);
+    std::fill(checkNew.begin(), checkNew.end(), false);
+
+    for (auto aPair : newModifiedFaces)
+    {
+        checkOrig[aPair.first] = true;
+        for (uint i : aPair.second)
+        {
+            checkNew[i] = true;
+            this->addModifiedFace(aPair.first, i);
+        }
+
+    }
+    for (uint i : newdDeletedFaces)
+    {
+        // TODO finish this
+        i++;
+    }
+    for (uint i : newNewFaces)
+    {
+        i++;
+    }
+}
+
+bool ModifiedSolid::operator==(const ModifiedSolid& aModifiedSolid) const
+{
+    if (myOrigSolid != aModifiedSolid.myOrigSolid)
+        return false;
+    if (myNewSolid != aModifiedSolid.myNewSolid)
+        return false;
+    if(modifiedFaces != aModifiedSolid.modifiedFaces)
+        return false;
+    if (newFaces != aModifiedSolid.newFaces)
+        return false;
+    if (deletedFaces != aModifiedSolid.deletedFaces)
+        return false;
+    return true;
+}
+
+bool ModifiedSolid::operator!=(const ModifiedSolid& aModifiedSolid) const
+{
+    return not ((*this) == aModifiedSolid);
 }
 
 const Occ::Solid& ModifiedSolid::getNewSolid() const

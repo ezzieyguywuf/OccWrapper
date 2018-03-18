@@ -22,6 +22,18 @@ namespace Occ
             ModifiedSolid(Occ::Box origBox, Occ::Box newBox);
             ModifiedSolid(Occ::Cylinder origCyl, Occ::Cylinder newCyl);
             ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation);
+            // This constructor takes _raw indices_ that maps faces from the original
+            // solid to the new solid.
+            //
+            // throws std::runtime_error if each face in either solid is not accounted for
+            ModifiedSolid(Solid origSolid,
+                          Solid newSolid, 
+                          map<uint, vector<uint>> modfiedFaces, 
+                          uints deletedFaces, 
+                          uints newFaces);
+
+            bool operator==(const ModifiedSolid& aModifiedSolid) const;
+            bool operator!=(const ModifiedSolid& aModifiedSolid) const;
 
             // returns the new Occ::Solid
             const Solid& getNewSolid() const;
