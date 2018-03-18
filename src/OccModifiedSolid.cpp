@@ -92,18 +92,14 @@ ModifiedSolid::ModifiedSolid(Solid origSolid,
                              map<uint, vector<uint>> newModifiedFaces, 
                              uints newdDeletedFaces, 
                              uints newNewFaces)
+    : myOrigSolid(origSolid), myNewSolid(newSolid)
 {
-    vector<bool> checkOrig;
-    vector<bool> checkNew;
 
     const int size1 = origSolid.getFaces().size() - 1;
     const int size2 = newSolid.getFaces().size() - 1;
 
-    checkOrig.reserve(size1);
-    checkNew.reserve(size2);
-
-    std::fill(checkOrig.begin(), checkOrig.end(), false);
-    std::fill(checkNew.begin(), checkNew.end(), false);
+    vector<bool> checkOrig(size1, false);
+    vector<bool> checkNew(size2, false);
 
     for (auto aPair : newModifiedFaces)
     {
@@ -117,12 +113,30 @@ ModifiedSolid::ModifiedSolid(Solid origSolid,
     }
     for (uint i : newdDeletedFaces)
     {
-        // TODO finish this
-        i++;
+        if (i >= myOrigSolid.getFaces().size())
+        {
+            throw std::runtime_error("Index out of range for deletedFace");
+        }
+        checkOrig[i] = true;
+        deletedFaces.push_back(i);
     }
     for (uint i : newNewFaces)
     {
-        i++;
+        if (i >= myNewSolid.getFaces().size())
+        {
+            throw std::runtime_error("Index out of range for newFace");
+        }
+        checkNew[i] = true;
+        newFaces.push_back(i);
+    }
+    if (std::find(checkOrig.begin(), checkOrig.end(), false) != checkOrig.end())
+    {
+        throw std::runtime_error("All faces in origSolid not accounted for");
+    }
+
+    if (std::find(checkNew.begin(), checkNew.end(), false) != checkNew.end())
+    {
+        throw std::runtime_error("All faces in NewSolid not accounted for");
     }
 }
 
