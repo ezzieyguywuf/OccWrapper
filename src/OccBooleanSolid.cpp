@@ -1,5 +1,7 @@
 #include <OccBooleanSolid.h>
 
+#include <TopoDS_Solid.hxx>
+
 using Occ::BooleanSolid;
 
 BooleanSolid::BooleanSolid(Occ::Solid aNewSolid, vector<Occ::ModifiedSolid> baseSolids)
