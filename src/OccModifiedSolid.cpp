@@ -47,7 +47,7 @@ ModifiedSolid::ModifiedSolid(Occ::Cylinder origCyl, Occ::Cylinder newCyl)
 
 
 ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& anOperation)
-    : myOrigSolid(anOrigSolid), myNewSolid(TopoDS::Compound(anOperation.Shape()))
+    : myOrigSolid(anOrigSolid), myNewSolid(anOperation.Shape())
 {
     uint i = 0;
     for (const Occ::Face& occFace : myOrigSolid.getFaces())
