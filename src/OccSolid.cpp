@@ -22,6 +22,8 @@ Solid::Solid(const TopoDS_Shape& aShape)
         throw std::runtime_error("I don't know how to create a solid from that TopoDS_Shape.");
             
     }
+    this->processFaces();
+    this->processEdges();
 }
 
 Solid::Solid(const TopoDS_Solid& aSolid)
@@ -53,7 +55,7 @@ uint Solid::getFaceIndex(const Occ::Face& aFace) const
     uint i = 0;
     for (const Occ::Face& myFace : myFaces)
     {
-        if (myFace == aFace){
+        if (myFace.isSimilar(aFace)){
             return i;
         }
         i++;
