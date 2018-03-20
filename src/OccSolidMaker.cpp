@@ -33,6 +33,6 @@ Occ::BooleanSolid SolidMaker::makeBoolean(BRepAlgoAPI_BooleanOperation& aBoolean
     Occ::ModifiedSolid modTool(occTool, aBooleanOp);
 
     // Finally, create the Occ::BooleanSolid and return
-    Occ::Solid newSolid(TopoDS::Compound(aBooleanOp.Shape()));
+    Occ::Solid newSolid(aBooleanOp.Shape());
     return Occ::BooleanSolid(newSolid, {modBase, modTool});
 }
