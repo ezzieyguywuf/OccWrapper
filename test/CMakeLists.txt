@@ -8,6 +8,7 @@ AddTest("OccShapeTester" OccEdge)
 AddTest("OccSolidTester" OccSolid)
 AddTest("OccModifiedSolidTester" OccSolidMaker OccModifiedSolid)
 AddTest("OccSolidModifierTester" OccSolidMaker OccSolidModifier)
+AddTest("OccSolidMakerTester" OccSolidMaker OccSolidModifier)
 AddTest("OccBooleanSolidTester" OccSolidModifier OccSolidMaker)
 #AddTest("OccFaceComparatorTester" ${OCC_LIBS} OccEdge OccFaceComparator OccSolidMaker OccSolidModifier OccBooleanSolid)
 

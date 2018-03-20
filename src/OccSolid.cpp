@@ -11,6 +11,19 @@ Solid::Solid()
     : Shape(TopoDS_Solid())
 {}
 
+Solid::Solid(const TopoDS_Shape& aShape)
+    : Shape(aShape)
+{
+    switch (aShape.ShapeType()) {
+    case TopAbs_SOLID:
+    case TopAbs_COMPOUND:
+        break;
+    default:
+        throw std::runtime_error("I don't know how to create a solid from that TopoDS_Shape.");
+            
+    }
+}
+
 Solid::Solid(const TopoDS_Solid& aSolid)
     : Shape(aSolid)
 {

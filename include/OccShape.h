@@ -14,8 +14,12 @@ using std::vector;
 // remove all Occ code from OccWrapper, which can be rechristened TopoWrapper.
 
 namespace Occ{
+    class Solid;
     class Shape
     {
+        // For the Occ::Solid(TopoDS_Shape) constructor (needs access to myShape). Is
+        // there a better way to do this?
+        friend class Solid;
         public:
             Shape(const Shape& aShape);
             Shape operator=(const Shape& aShape);

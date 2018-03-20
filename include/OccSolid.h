@@ -16,6 +16,7 @@ namespace Occ{
     {
         public:
             Solid();
+            Solid(const TopoDS_Shape& aShape);
             Solid(const TopoDS_Solid& aSolid);
             Solid(const TopoDS_Compound& aCompound);
 
