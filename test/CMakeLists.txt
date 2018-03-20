@@ -12,5 +12,5 @@ AddTest("OccSolidMakerTester" OccSolidMaker OccSolidModifier)
 AddTest("OccBooleanSolidTester" OccSolidModifier OccSolidMaker)
 #AddTest("OccFaceComparatorTester" ${OCC_LIBS} OccEdge OccFaceComparator OccSolidMaker OccSolidModifier OccBooleanSolid)
 
-#add_executable("SimpleTest" "SimpleTest.cpp")
-#target_link_libraries("SimpleTest" ${OCC_LIBS} OccEdge OccFaceComparator OccSolidMaker OccModifiedSolid OccSolidModifier OccBooleanSolid)
+add_executable("SimpleTest" "SimpleTest.cpp")
+target_link_libraries("SimpleTest" ${OCC_LIBS} OccEdge OccSolidMaker OccModifiedSolid OccSolidModifier OccBooleanSolid)
