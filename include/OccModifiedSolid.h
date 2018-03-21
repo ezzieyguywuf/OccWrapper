@@ -5,6 +5,7 @@
 #include <OccBox.h>
 #include <OccCylinder.h>
 #include <OccFace.h>
+#include <OccEdge.h>
 #include <OccTypes.h>
 
 #include <map>
@@ -30,7 +31,7 @@ namespace Occ
                           Solid newSolid, 
                           map<uint, vector<uint>> modfiedFaces, 
                           uints deletedFaces, 
-                          uints newFaces);
+                          map<int, vector<uint>> newFaces);
 
             bool operator==(const ModifiedSolid& aModifiedSolid) const;
             bool operator!=(const ModifiedSolid& aModifiedSolid) const;
@@ -42,12 +43,18 @@ namespace Occ
             // Returns a vector of indices which correspond to faces in myNewSolid. These
             // faces represent modification(s) of aFace. The vector will be sorted using
             // std::sort.
-            //
-            // throws std::runtime_error if aFace is not in myOrigSolid
+            // 
+            // Note: if no faces were modified, the vector is empty
             vector<uint> getModifiedFaceIndices(const Occ::Face& aFace) const;
             // Checks whether or ont aFace was deleted.
             bool isDeleted(const Occ::Face& aFace) const;
-            const vector<uint>& getNewFaceIndices() const;
+            // Returns a vector of indices which correspond to faces in myNewSolid. These
+            // faces represent new faces created by aFace. The vector will be sorted using
+            // std::sort
+            //
+            // Note: if no faces were generated, the vector is empty.
+            vector<uint> getNewFaceIndices(const Occ::Face& aFace) const;
+            const map<int, vector<uint>>& getNewFaceMap() const;
 
         private:
             uint getNewFaceIndex(const Occ::Face& aFace) const;
@@ -65,10 +72,15 @@ namespace Occ
             // myNewSolid (j, k, etc...). This is stored as:
             // map.at(i) = vector(j, k, etc...)
             std::map<uint, vector<uint>> modifiedFaces;
-            // a vector of indices to myNewSolid.getFaces() which are generated faces
-            uints newFaces;
+            // a vector of indices to myNewSolid.getFaces() which are generated faces. A
+            // given face in myOrigSolid (i) can generated any number of given faces in
+            // myNewSolid (j, k, etc...). A key of -1 means we don't know where the new
+            // face originated from. This should be avoided...The data is stored as:
+            std::map<int, vector<uint>> newFaces;
             // a vector of indices to the myOrigSolid.getFaces() which have been deleted
             uints deletedFaces;
+            // (potentially temporary) listing of new edges.
+            vector<Occ::Edge> newEdges;
 
     };
 }

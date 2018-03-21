@@ -6,6 +6,7 @@
 #include <TopoDS.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopAbs_ShapeEnum.hxx>
 
 #include <algorithm> // for std::sort
 #include <stdexcept>
@@ -74,11 +75,45 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
             this->addModifiedFace(i, j);
         }
 
-        if (modified.Extent() == 0)
+        TopTools_ListOfShape generated = anOperation.Generated(aFace);
+        TopTools_ListIteratorOfListOfShape genIterator(generated);
+
+        for (; genIterator.More() ; genIterator.Next())
         {
-            // If not deleted or modified, then the face is the same in the new solid.
-            // Despite being topologically equivalent, we must still treat it as modified
-            // as it will likely have a new index.
+            TopoDS_Shape genShape = genIterator.Value();
+            switch (genShape.ShapeType()) {
+
+            case TopAbs_VERTEX:
+            {
+                std::clog << "VERTEX was generated. Doing nothing..." << std::endl;
+                break;
+            }
+            case TopAbs_EDGE:
+            {
+                std::clog << "EDGE was generated. Storing." << std::endl;
+                TopoDS_Edge genEdge = TopoDS::Edge(genShape);
+                newEdges.push_back(Occ::Edge(genEdge));
+                break;
+            }
+            case TopAbs_FACE:
+            {
+                std::clog << "FACE was generated. Storing." << std::endl;
+                TopoDS_Face genFace = TopoDS::Face(genFace);
+                uint j = myNewSolid.getFaceIndex(genFace);
+                newFaces[i].push_back(j);
+                break;
+            }
+            default:
+                throw std::runtime_error("Somehow, something other than a Vertex, Edge, or Face was generated");
+                    
+            }
+        }
+
+        if (modified.Extent() == 0 and generated.Extent() == 0)
+        {
+            // If not deleted, modified, or generated, then the face is the same in the
+            // new solid.  Despite being topologically equivalent, we must still treat it
+            // as modified as it will likely have a new index.
             this->addModifiedFace(i, this->getNewFaceIndex(aFace));
             i++;
             continue;
@@ -91,7 +126,7 @@ ModifiedSolid::ModifiedSolid(Solid origSolid,
                              Solid newSolid, 
                              map<uint, vector<uint>> newModifiedFaces, 
                              uints newdDeletedFaces, 
-                             uints newNewFaces)
+                             map<int, vector<uint>> newNewFaces)
     : myOrigSolid(origSolid), myNewSolid(newSolid)
 {
 
@@ -120,14 +155,19 @@ ModifiedSolid::ModifiedSolid(Solid origSolid,
         checkOrig[i] = true;
         deletedFaces.push_back(i);
     }
-    for (uint i : newNewFaces)
+    for (auto data: newNewFaces)
     {
-        if (i >= myNewSolid.getFaces().size())
+        int i = data.first;
+        
+        for (uint j : data.second)
         {
-            throw std::runtime_error("Index out of range for newFace");
+            if (j >= myNewSolid.getFaces().size())
+            {
+                throw std::runtime_error("Index out of range for newFace");
+            }
+            checkNew[j] = true;
+            newFaces[i].push_back(j);
         }
-        checkNew[i] = true;
-        newFaces.push_back(i);
     }
     if (std::find(checkOrig.begin(), checkOrig.end(), false) != checkOrig.end())
     {
@@ -180,8 +220,7 @@ vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
             return pair.second;
         }
     }
-
-    throw std::runtime_error("Face was not modified or deleted, and yet I was unable to find it.");
+    return {};
 }
 
 bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
@@ -197,7 +236,20 @@ bool ModifiedSolid::isDeleted(const Occ::Face& aFace) const
     return false;
 }
 
-const vector<uint>& ModifiedSolid::getNewFaceIndices() const
+vector<uint> ModifiedSolid::getNewFaceIndices(const Occ::Face& aFace) const
+{
+    for (const auto& pair : newFaces)
+    {
+        const Occ::Face& origFace = myOrigSolid.getFaces().at(pair.first);
+        if (origFace.isSimilar(aFace))
+        {
+            return pair.second;
+        }
+    }
+    return {};
+}
+
+const map<int, vector<uint>>& ModifiedSolid::getNewFaceMap() const
 {
     return newFaces;
 }
