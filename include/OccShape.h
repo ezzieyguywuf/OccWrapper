@@ -30,7 +30,10 @@ namespace Occ{
             // Overlap, but different orientations.
             bool isSimilar(const Shape& aShape) const;
             bool isNull() const;
+            // translate the TopoDS_Shape
             void translate(double dx, double dy, double dz);
+            // Write the TopoDS_Shape to a file
+            void writeFile(const std::string filename) const;
 
             TopoDS_Shape getShape() const;
 

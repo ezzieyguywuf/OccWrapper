@@ -175,7 +175,7 @@ vector<uint> ModifiedSolid::getModifiedFaceIndices(const Occ::Face& aFace) const
     for (const auto& pair : modifiedFaces)
     {
         const Occ::Face& origFace = myOrigSolid.getFaces().at(pair.first);
-        if (origFace == aFace)
+        if (origFace.isSimilar(aFace))
         {
             return pair.second;
         }

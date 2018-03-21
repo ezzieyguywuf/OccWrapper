@@ -33,7 +33,7 @@ array<uint, 3> BooleanSolid::getConstituentFace(const Occ::Face& aFace) const
             for (uint index : modSolid.getModifiedFaceIndices(origFace))
             {
                 const Occ::Face& checkFace = this->getFaces()[index];
-                if (checkFace == aFace)
+                if (checkFace.isSimilar(aFace))
                 {
                    return {i, j, k}; 
                 }

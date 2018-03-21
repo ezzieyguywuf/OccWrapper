@@ -9,6 +9,8 @@
 #include <TopoDS_Solid.hxx>
 #include <TopoDS_Compound.hxx>
 
+#include <string>
+
 using Occ::uint;
 
 namespace Occ{

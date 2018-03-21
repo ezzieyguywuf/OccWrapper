@@ -1,6 +1,7 @@
 #include <OccShape.h>
 #include <gp_Trsf.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
+#include <BRepTools.hxx>
 
 using Occ::Shape;
 
@@ -48,4 +49,9 @@ void Shape::translate(double dx, double dy, double dz)
     gp_Trsf loc;
     loc.SetTranslationPart(gp_Vec(dx, dy, dz));
     myShape = BRepBuilderAPI_Transform(myShape, loc, true);
+}
+
+void Shape::writeFile(const std::string filename) const
+{
+    BRepTools::Write(myShape, filename.c_str());
 }
