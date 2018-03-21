@@ -5,6 +5,11 @@
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <TopAbs_ShapeEnum.hxx>
 #include <TopoDS.hxx>
+#include <TopLoc_Location.hxx>
+#include <gp_Trsf.hxx>
+#include <gp_Vec.hxx>
+#include <gp_Pnt.hxx>
+#include <BRep_Tool.hxx>
 #include "gtest/gtest.h"
 
 class MyShape : public Occ::Shape
@@ -26,16 +31,14 @@ TEST(OccShape, Equals){
     EXPECT_NE(shape1, shape3);
 }
 
-//TEST(OccShape, GetFaces){
-    //BRepPrimAPI_MakeBox mkBox(10.0, 10.0, 10.0);
-    //mkBox.Build();
-    //MyShape shape(mkBox.Shape());
-    //EXPECT_EQ(shape.getFaces().size(), 6);
-//}
-
-//TEST(OccShape, GetEdges){
-    //BRepPrimAPI_MakeBox mkBox(10.0, 10.0, 10.0);
-    //mkBox.Build();
-    //MyShape shape(mkBox.Shape());
-    //EXPECT_EQ(shape.getEdges().size(), 12);
-//}
+TEST(OccShape, translate)
+{
+    BRepPrimAPI_MakeBox mkBox1(10.0, 10.0, 10.0);
+    mkBox1.Build();
+    MyShape shape1(mkBox1.Shape());
+    shape1.translate(5,5,5);
+    gp_Trsf transform;
+    gp_Pnt pnt(5,5,5);
+    transform.SetTranslation(gp_Vec(5,5,5));
+    EXPECT_TRUE(BRep_Tool::Surface(mkBox1.BottomFace())->Value(0,0).IsEqual(pnt, 0.00001));
+}
