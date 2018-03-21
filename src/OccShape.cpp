@@ -1,4 +1,6 @@
 #include <OccShape.h>
+#include <gp_Trsf.hxx>
+#include <BRepBuilderAPI_Transform.hxx>
 
 using Occ::Shape;
 
@@ -39,4 +41,11 @@ bool Shape::isNull() const
 TopoDS_Shape Shape::getShape() const
 {
     return myShape;
+}
+
+void Shape::translate(double dx, double dy, double dz)
+{
+    gp_Trsf loc;
+    loc.SetTranslationPart(gp_Vec(dx, dy, dz));
+    myShape = BRepBuilderAPI_Transform(myShape, loc, true);
 }
