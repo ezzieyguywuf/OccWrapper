@@ -55,3 +55,8 @@ void Shape::writeFile(const std::string filename) const
 {
     BRepTools::Write(myShape, filename.c_str());
 }
+
+void Shape::writeFile(const char* filename) const
+{
+    this->writeFile(std::string(filename));
+}

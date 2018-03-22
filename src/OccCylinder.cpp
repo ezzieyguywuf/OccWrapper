@@ -10,7 +10,7 @@ Cylinder::Cylinder(BRepPrimAPI_MakeCylinder aMaker)
     : Occ::Primitive(TopoDS::Solid(aMaker.Shape()))
 {
     BRepPrim_Cylinder cyl = aMaker.Cylinder();
-    myNamedFaces.emplace(FaceName::top, Occ::Face(cyl.TopFace()));
-    myNamedFaces.emplace(FaceName::bottom, Occ::Face(cyl.BottomFace()));
-    myNamedFaces.emplace(FaceName::lateral, Occ::Face(cyl.LateralFace()));
+    myNamedFaces.emplace(FaceName::top, Solid::getFaceIndex(Occ::Face(cyl.TopFace())));
+    myNamedFaces.emplace(FaceName::bottom, Solid::getFaceIndex(Occ::Face(cyl.BottomFace())));
+    myNamedFaces.emplace(FaceName::lateral, Solid::getFaceIndex(Occ::Face(cyl.LateralFace())));
 }

@@ -3,7 +3,6 @@
 
 #include <OccSolid.h>
 #include <OccFace.h>
-#include <OccEdge.h>
 #include <OccTypes.h>
 
 #include <map>
@@ -20,7 +19,7 @@ namespace Occ{
             inline const Face& getNamedFace(const FaceName& which) const;
 
         protected:
-            std::map<FaceName, Face> myNamedFaces;
+            std::map<FaceName, uint> myNamedFaces;
     };
 
     Primitive::Primitive(TopoDS_Solid aSolid)
@@ -29,7 +28,7 @@ namespace Occ{
 
     const Face& Primitive::getNamedFace(const FaceName& which) const
     {
-        return myNamedFaces.at(which);
+        return Solid::getFaces()[myNamedFaces.at(which)];
     }
 }
 

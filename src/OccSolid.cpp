@@ -40,6 +40,21 @@ Solid::Solid(const TopoDS_Compound& aCompound)
     this->processEdges();
 }
 
+Solid::Solid(const Solid& aSolid)
+    : Shape(aSolid.myShape)
+{
+    this->processFaces();
+    this->processEdges();
+}
+
+Solid Solid::operator=(const Solid& aSolid)
+{
+    myShape = aSolid.myShape;
+    this->processFaces();
+    this->processEdges();
+    return *this;
+}
+
 const Occ::Faces& Solid::getFaces() const
 {
     return myFaces;
@@ -65,6 +80,7 @@ uint Solid::getFaceIndex(const Occ::Face& aFace) const
 
 void Solid::processFaces()
 {
+    myFaces.clear();
     TopTools_IndexedMapOfShape faces;
     TopExp::MapShapes(this->getShape(), TopAbs_FACE, faces);
     for (int i=1; i <= faces.Extent(); i++)
@@ -75,10 +91,18 @@ void Solid::processFaces()
 
 void Solid::processEdges()
 {
+    myEdges.clear();
     TopTools_IndexedMapOfShape edges;
     TopExp::MapShapes(this->getShape(), TopAbs_EDGE, edges);
     for (int i=1; i <= edges.Extent(); i++)
     {
         myEdges.push_back(Occ::Edge(TopoDS::Edge(edges.FindKey(i))));
     }
+}
+
+void Solid::translate(double dx, double dy, double dz)
+{
+    Shape::translate(dx, dy, dz);
+    this->processFaces();
+    this->processEdges();
 }

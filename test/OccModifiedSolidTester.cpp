@@ -42,6 +42,21 @@ TEST(OccModifiedSolid, oneToOneFaceModification)
     EXPECT_THAT(ms.getModifiedFaceIndices(left), ElementsAreArray({5}));
 }
 
+TEST(OccModifiedSolid, oneToOneFaceModificationWithTranslation)
+{
+    Occ::Box box1 = Occ::SolidMaker::makeBox(10, 10, 10);
+    box1.translate(-5,5,3);
+    Occ::Box box2 = Occ::SolidMaker::makeBox(5,5,5);
+
+    Occ::ModifiedSolid ms(box1, box2);
+
+    const Occ::Face& front = box1.getNamedFace(Occ::FaceName::front);
+    const Occ::Face& top = box1.getNamedFace(Occ::FaceName::top);
+
+    EXPECT_THAT(ms.getModifiedFaceIndices(front), ElementsAreArray({1}));
+    EXPECT_THAT(ms.getModifiedFaceIndices(top), ElementsAreArray({5}));
+}
+
 TEST(OccModifiedSolid, oneToManyFaceModification)
 {
     Occ::Box box = Occ::SolidMaker::makeBox(10, 10, 10);

@@ -22,9 +22,16 @@ namespace Occ{
             Solid(const TopoDS_Solid& aSolid);
             Solid(const TopoDS_Compound& aCompound);
 
+            // rule of three
+            Solid (const Solid& aSolid);
+            Solid operator=(const Solid& aSolid);
+            ~Solid() = default;
+
             const Faces& getFaces() const;
             const Edges& getEdges() const;
             uint getFaceIndex(const Occ::Face& aFace) const;
+            // translate the TopoDS_Shape
+            void translate(double dx, double dy, double dz);
 
         protected:
             void processFaces();

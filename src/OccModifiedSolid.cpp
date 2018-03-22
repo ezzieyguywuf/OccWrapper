@@ -53,8 +53,6 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
     uint i = 0;
     for (const Occ::Face& occFace : myOrigSolid.getFaces())
     {
-        // TODO do something with generated (i.e. new) faces.
-
         TopoDS_Face aFace = TopoDS::Face(occFace.getShape());
         
         if (anOperation.IsDeleted(aFace))
@@ -112,11 +110,12 @@ ModifiedSolid::ModifiedSolid(Solid anOrigSolid, BRepAlgoAPI_BooleanOperation& an
         if (modified.Extent() == 0 and generated.Extent() == 0)
         {
             // If not deleted, modified, or generated, then the face is the same in the
-            // new solid.  Despite being topologically equivalent, we must still treat it
-            // as modified as it will likely have a new index.
+            // new solid.  Despite being geometrically equivalent, we must still treat it
+            // as modified as it will likely have a new index, i.e. it is Topologically
+            // distinct.
             this->addModifiedFace(i, this->getNewFaceIndex(aFace));
             i++;
-            continue;
+            continue; // explicitly do nothing else after this
         }
         i++;
     }

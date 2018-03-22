@@ -34,6 +34,7 @@ namespace Occ{
             void translate(double dx, double dy, double dz);
             // Write the TopoDS_Shape to a file
             void writeFile(const std::string filename) const;
+            void writeFile(const char* filename) const;
 
             TopoDS_Shape getShape() const;
 
