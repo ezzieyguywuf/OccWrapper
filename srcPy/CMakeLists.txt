@@ -5,7 +5,7 @@ include_directories(
 
 AddLib(OccShapePy STATIC OccShape)
 
-pybind11_add_module(OccWrapperPy OccWrapperPy.cpp)
-target_link_libraries(OccWrapperPy PRIVATE 
+pybind11_add_module(OccWrapper OccWrapperPy.cpp)
+target_link_libraries(OccWrapper PRIVATE 
     OccShapePy
 )
