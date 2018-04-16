@@ -1,4 +1,12 @@
-find_package(pybind11 REQUIRED)
-include_directories(
-    ${PYBIND11_INCLUDE_DIRS}
-)
+#include_directories(
+    #${PYBIND11_INCLUDE_DIRS}
+#)
+
+#add_library(OccShapePy OccShapePy.cpp)
+#target_link_libraries(OccShapePy OccShape)
+
+#add_library(OccWrapperPy OccWrapperPy.cpp)
+#target_link_libraries(OccWrapperPy OccShapePy)
+
+pybind11_add_module(OccWrapperPy OccWrapperPy.cpp OccShapePy.cpp)
+target_link_libraries(OccWrapperPy PRIVATE OccShape)
