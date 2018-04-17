@@ -14,22 +14,13 @@ namespace Occ{
     {
         public:
             Primitive() = default;
-            inline Primitive(const TopoDS_Solid aSolid);
+            Primitive(const TopoDS_Solid aSolid);
 
-            inline const Face& getNamedFace(const FaceName& which) const;
+            const Face& getNamedFace(const FaceName& which) const;
 
         protected:
             std::map<FaceName, uint> myNamedFaces;
     };
-
-    Primitive::Primitive(TopoDS_Solid aSolid)
-        : Solid(aSolid)
-    {}
-
-    const Face& Primitive::getNamedFace(const FaceName& which) const
-    {
-        return Solid::getFaces()[myNamedFaces.at(which)];
-    }
 }
 
 #endif /* OCCPRIMITIVE_H */
