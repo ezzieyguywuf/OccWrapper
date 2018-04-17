@@ -26,3 +26,5 @@ target_link_libraries(OccWrapper PRIVATE
     OccSolidMakerPy
     OccPrimitivePy
 )
+
+pybind11_add_module(example_py test.cpp)
