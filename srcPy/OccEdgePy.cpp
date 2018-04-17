@@ -10,5 +10,6 @@ void init_OccEdge(py::module& m)
         .def("overlaps", &Occ::Edge::overlaps, 
              py::arg("anEdge"), py::arg("tolerance") = Precision::Confusion(),
              py::doc("Checks if a (topologically distinct) anEdge "
-                 "geometrically overlaps with self"));
+                 "geometrically overlaps with self"))
+        .doc() = "A topological Edge. The underlying C++ code wraps a TopoDS_Edge.";
 }
