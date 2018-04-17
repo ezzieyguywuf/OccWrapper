@@ -19,6 +19,8 @@ AddLib(OccEdgePy STATIC OccShapePy OccEdge)
 AddLib(OccFacePy STATIC OccEdgePy OccFace)
 AddLib(OccSolidPy STATIC OccFacePy OccSolid)
 AddLib(OccPrimitivePy STATIC OccSolidPy OccPrimitive)
+AddLib(OccBoxPy STATIC OccPrimitivePy OccBox)
+AddLib(OccCylinderPy STATIC OccPrimitivePy OccCylinder)
 AddLib(OccSolidMakerPy STATIC ${OccWrapperLibs} OccSolidMaker)
 
 pybind11_add_module(OccWrapper OccWrapperPy.cpp)
@@ -28,6 +30,8 @@ target_link_libraries(OccWrapper PRIVATE
     OccFacePy
     OccSolidPy
     OccPrimitivePy
+    OccBoxPy
+    OccCylinderPy
     #OccSolidMakerPy
 )
 
