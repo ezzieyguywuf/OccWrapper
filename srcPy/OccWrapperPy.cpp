@@ -7,6 +7,7 @@ void init_OccShape(py::module&);
 void init_OccPrimitive(py::module&);
 void init_OccEdge(py::module&);
 void init_OccFace(py::module&);
+void init_OccSolid(py::module&);
 void init_OccSolidMaker(py::module&);
 
 PYBIND11_MODULE(OccWrapper, m)
@@ -15,6 +16,7 @@ PYBIND11_MODULE(OccWrapper, m)
     init_OccShape(m);
     init_OccEdge(m);
     init_OccFace(m);
+    init_OccSolid(m);
     init_OccPrimitive(m);
     //init_OccBox(m);
     init_OccSolidMaker(m);
