@@ -93,7 +93,7 @@
 
 #define PYBIND11_VERSION_MAJOR 2
 #define PYBIND11_VERSION_MINOR 2
-#define PYBIND11_VERSION_PATCH 0
+#define PYBIND11_VERSION_PATCH 2
 
 /// Include Python header, disable linking to pythonX_d.lib on Windows in debug mode
 #if defined(_MSC_VER)
@@ -205,6 +205,7 @@ extern "C" {
 #define PYBIND11_TRY_NEXT_OVERLOAD ((PyObject *) 1) // special failure return code
 #define PYBIND11_STRINGIFY(x) #x
 #define PYBIND11_TOSTRING(x) PYBIND11_STRINGIFY(x)
+#define PYBIND11_CONCAT(first, second) first##second
 
 /** \rst
     ***Deprecated in favor of PYBIND11_MODULE***
@@ -267,7 +268,7 @@ extern "C" {
         }
 \endrst */
 #define PYBIND11_MODULE(name, variable)                                        \
-    static void pybind11_init_##name(pybind11::module &);                      \
+    static void PYBIND11_CONCAT(pybind11_init_, name)(pybind11::module &);     \
     PYBIND11_PLUGIN_IMPL(name) {                                               \
         int major, minor;                                                      \
         if (sscanf(Py_GetVersion(), "%i.%i", &major, &minor) != 2) {           \
@@ -281,9 +282,9 @@ extern "C" {
                          major, minor);                                        \
             return nullptr;                                                    \
         }                                                                      \
-        auto m = pybind11::module(#name);                                      \
+        auto m = pybind11::module(PYBIND11_TOSTRING(name));                    \
         try {                                                                  \
-            pybind11_init_##name(m);                                           \
+            PYBIND11_CONCAT(pybind11_init_, name)(m);                          \
             return m.ptr();                                                    \
         } catch (pybind11::error_already_set &e) {                             \
             PyErr_SetString(PyExc_ImportError, e.what());                      \
@@ -293,7 +294,7 @@ extern "C" {
             return nullptr;                                                    \
         }                                                                      \
     }                                                                          \
-    void pybind11_init_##name(pybind11::module &variable)
+    void PYBIND11_CONCAT(pybind11_init_, name)(pybind11::module &variable)
 
 
 NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
@@ -376,16 +377,18 @@ constexpr size_t instance_simple_holder_in_ptrs() {
 struct type_info;
 struct value_and_holder;
 
+struct nonsimple_values_and_holders {
+    void **values_and_holders;
+    uint8_t *status;
+};
+
 /// The 'instance' type which needs to be standard layout (need to be able to use 'offsetof')
 struct instance {
     PyObject_HEAD
     /// Storage for pointers and holder; see simple_layout, below, for a description
     union {
         void *simple_value_holder[1 + instance_simple_holder_in_ptrs()];
-        struct {
-            void **values_and_holders;
-            uint8_t *status;
-        } nonsimple;
+        nonsimple_values_and_holders nonsimple;
     };
     /// Weak references (needed for keep alive):
     PyObject *weakrefs;
@@ -470,7 +473,7 @@ template <size_t... IPrev, size_t I, bool B, bool... Bs> struct select_indices_i
     : select_indices_impl<conditional_t<B, index_sequence<IPrev..., I>, index_sequence<IPrev...>>, I + 1, Bs...> {};
 template <bool... Bs> using select_indices = typename select_indices_impl<index_sequence<>, 0, Bs...>::type;
 
-/// Backports of std::bool_constant and std::negation to accomodate older compilers
+/// Backports of std::bool_constant and std::negation to accommodate older compilers
 template <bool B> using bool_constant = std::integral_constant<bool, B>;
 template <typename T> struct negation : bool_constant<!T::value> { };
 

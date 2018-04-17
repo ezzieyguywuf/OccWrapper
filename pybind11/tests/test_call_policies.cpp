@@ -8,6 +8,7 @@
 */
 
 #include "pybind11_tests.h"
+#include "constructor_stats.h"
 
 struct CustomGuard {
     static bool enabled;
@@ -32,7 +33,7 @@ bool DependentGuard::enabled = false;
 TEST_SUBMODULE(call_policies, m) {
     // Parent/Child are used in:
     // test_keep_alive_argument, test_keep_alive_return_value, test_alive_gc_derived,
-    // test_alive_gc_multi_derived, test_return_none
+    // test_alive_gc_multi_derived, test_return_none, test_keep_alive_constructor
     class Child {
     public:
         Child() { py::print("Allocating child."); }
@@ -51,12 +52,28 @@ TEST_SUBMODULE(call_policies, m) {
     };
     py::class_<Parent>(m, "Parent")
         .def(py::init<>())
+        .def(py::init([](Child *) { return new Parent(); }), py::keep_alive<1, 2>())
         .def("addChild", &Parent::addChild)
         .def("addChildKeepAlive", &Parent::addChild, py::keep_alive<1, 2>())
         .def("returnChild", &Parent::returnChild)
         .def("returnChildKeepAlive", &Parent::returnChild, py::keep_alive<1, 0>())
         .def("returnNullChildKeepAliveChild", &Parent::returnNullChild, py::keep_alive<1, 0>())
         .def("returnNullChildKeepAliveParent", &Parent::returnNullChild, py::keep_alive<0, 1>());
+
+    // test_keep_alive_single
+    m.def("add_patient", [](py::object /*nurse*/, py::object /*patient*/) { }, py::keep_alive<1, 2>());
+    m.def("get_patients", [](py::object nurse) {
+        py::list patients;
+        for (PyObject *p : pybind11::detail::get_internals().patients[nurse.ptr()])
+            patients.append(py::reinterpret_borrow<py::object>(p));
+        return patients;
+    });
+    m.def("refcount", [](py::handle h) {
+#ifdef PYPY_VERSION
+        ConstructorStats::gc(); // PyPy doesn't update ref counts until GC occurs
+#endif
+        return h.ref_count();
+    });
 
 #if !defined(PYPY_VERSION)
     // test_alive_gc

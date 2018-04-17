@@ -30,7 +30,8 @@
 #    define PYBIND11_HAS_OPTIONAL 1
 #  endif
 // std::experimental::optional (but not allowed in c++11 mode)
-#  if defined(PYBIND11_CPP14) && __has_include(<experimental/optional>)
+#  if defined(PYBIND11_CPP14) && (__has_include(<experimental/optional>) && \
+                                 !__has_include(<optional>))
 #    include <experimental/optional>
 #    define PYBIND11_HAS_EXP_OPTIONAL 1
 #  endif
@@ -83,7 +84,7 @@ template <typename Type, typename Key> struct set_caster {
     template <typename T>
     static handle cast(T &&src, return_value_policy policy, handle parent) {
         pybind11::set s;
-        for (auto &value: src) {
+        for (auto &&value : src) {
             auto value_ = reinterpret_steal<object>(key_conv::cast(forward_like<T>(value), policy, parent));
             if (!value_ || !s.add(value_))
                 return handle();
@@ -117,7 +118,7 @@ template <typename Type, typename Key, typename Value> struct map_caster {
     template <typename T>
     static handle cast(T &&src, return_value_policy policy, handle parent) {
         dict d;
-        for (auto &kv: src) {
+        for (auto &&kv : src) {
             auto key = reinterpret_steal<object>(key_conv::cast(forward_like<T>(kv.first), policy, parent));
             auto value = reinterpret_steal<object>(value_conv::cast(forward_like<T>(kv.second), policy, parent));
             if (!key || !value)
@@ -159,7 +160,7 @@ public:
     static handle cast(T &&src, return_value_policy policy, handle parent) {
         list l(src.size());
         size_t index = 0;
-        for (auto &value: src) {
+        for (auto &&value : src) {
             auto value_ = reinterpret_steal<object>(value_conv::cast(forward_like<T>(value), policy, parent));
             if (!value_)
                 return handle();
@@ -213,7 +214,7 @@ public:
     static handle cast(T &&src, return_value_policy policy, handle parent) {
         list l(src.size());
         size_t index = 0;
-        for (auto &value: src) {
+        for (auto &&value : src) {
             auto value_ = reinterpret_steal<object>(value_conv::cast(forward_like<T>(value), policy, parent));
             if (!value_)
                 return handle();
