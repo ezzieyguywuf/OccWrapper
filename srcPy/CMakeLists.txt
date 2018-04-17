@@ -3,9 +3,8 @@ include_directories(
     ${PYTHON_INCLUDE_DIRS}
 )
 
-AddLib(OccShapePy STATIC OccShape)
-AddLib(OccSolidMakerPy STATIC 
-    OccSolidMaker 
+set(OccWrapperLibs
+    OccPrimitive
     OccBooleanSolid 
     OccBox 
     OccCylinder 
@@ -15,8 +14,15 @@ AddLib(OccSolidMakerPy STATIC
     OccFace
     OccEdge)
 
+AddLib(OccShapePy STATIC OccShape)
+AddLib(OccEdgePy STATIC OccEdge)
+AddLib(OccSolidMakerPy STATIC ${OccWrapperLibs} OccSolidMaker)
+AddLib(OccPrimitivePy STATIC ${OccWrapperLibs})
+
 pybind11_add_module(OccWrapper OccWrapperPy.cpp)
 target_link_libraries(OccWrapper PRIVATE 
     OccShapePy
+    OccEdgePy
     OccSolidMakerPy
+    OccPrimitivePy
 )
