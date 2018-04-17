@@ -15,17 +15,20 @@ set(OccWrapperLibs
     OccEdge)
 
 AddLib(OccShapePy STATIC OccShape)
-AddLib(OccEdgePy STATIC OccShapePy)
-AddLib(OccFacePy STATIC OccEdgePy)
-AddLib(OccSolidPy STATIC OccFacePy)
+AddLib(OccEdgePy STATIC OccShapePy OccEdge)
+AddLib(OccFacePy STATIC OccEdgePy OccFace)
+AddLib(OccSolidPy STATIC OccFacePy OccSolid)
+AddLib(OccPrimitivePy STATIC OccSolidPy OccPrimitive)
 AddLib(OccSolidMakerPy STATIC ${OccWrapperLibs} OccSolidMaker)
-AddLib(OccPrimitivePy STATIC ${OccWrapperLibs})
 
 pybind11_add_module(OccWrapper OccWrapperPy.cpp)
 target_link_libraries(OccWrapper PRIVATE 
+    OccShapePy
+    OccEdgePy
+    OccFacePy
     OccSolidPy
-    OccSolidMakerPy
     OccPrimitivePy
+    #OccSolidMakerPy
 )
 
 pybind11_add_module(example_py test.cpp)

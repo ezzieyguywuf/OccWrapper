@@ -19,5 +19,5 @@ PYBIND11_MODULE(OccWrapper, m)
     init_OccSolid(m);
     init_OccPrimitive(m);
     //init_OccBox(m);
-    init_OccSolidMaker(m);
+    //init_OccSolidMaker(m);
 }
