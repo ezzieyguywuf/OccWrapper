@@ -1,1 +1,0 @@
-Search.setIndex({docnames:["index","modules"],envversion:53,filenames:["index.rst","modules.rst"],objects:{},objnames:{},objtypes:{},terms:{index:0,modul:0,page:0,search:0},titles:["Welcome to OccWrapperPy\u2019s documentation!","OccWrapper"],titleterms:{document:0,indic:0,occwrapp:1,occwrapperpi:0,tabl:0,welcom:0}})

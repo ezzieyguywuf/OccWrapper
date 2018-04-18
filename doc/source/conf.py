@@ -14,13 +14,12 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(1, os.path.abspath('/home/wolfie/Program/CAD_dev/OccWrapper/build/lib'))
+sys.path.insert(0, os.path.abspath('/home/wolfie/Program/CAD_dev/OccWrapper/build/lib'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'OccWrapperPy'
+project = 'OccWrapper'
 copyright = '2018, Wolfgang E. Sanyer'
 author = 'Wolfgang E. Sanyer'
 
@@ -69,7 +68,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path .
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = []
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -107,7 +106,7 @@ html_static_path = ['_static']
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OccWrapperPydoc'
+htmlhelp_basename = 'OccWrapperdoc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -134,7 +133,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'OccWrapperPy.tex', 'OccWrapperPy Documentation',
+    (master_doc, 'OccWrapper.tex', 'OccWrapper Documentation',
      'Wolfgang E. Sanyer', 'manual'),
 ]
 
@@ -144,7 +143,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'occwrapperpy', 'OccWrapperPy Documentation',
+    (master_doc, 'occwrapper', 'OccWrapper Documentation',
      [author], 1)
 ]
 
@@ -155,8 +154,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'OccWrapperPy', 'OccWrapperPy Documentation',
-     author, 'OccWrapperPy', 'One line description of project.',
+    (master_doc, 'OccWrapper', 'OccWrapper Documentation',
+     author, 'OccWrapper', 'One line description of project.',
      'Miscellaneous'),
 ]
 
