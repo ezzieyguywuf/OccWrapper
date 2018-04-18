@@ -33,8 +33,8 @@ PYBIND11_MODULE(OccWrapper, m)
     init_OccSolid(m);
     init_OccPrimitive(m);
     init_OccBox(m);
-    init_OccCylinder(m);
-    init_OccModifiedSolid(m);
-    init_OccBooleanSolid(m);
+    //init_OccCylinder(m);
+    //init_OccModifiedSolid(m);
+    //init_OccBooleanSolid(m);
     //init_OccSolidMaker(m);
 }
