@@ -6,6 +6,8 @@ namespace py = pybind11;
 void init_OccFace(py::module& m)
 {
     py::class_<Occ::Face, Occ::Shape>(m, "Face")
+        .def("getEdges", &Occ::Face::getEdges,
+             py::doc("Get the OccWrapper.Edge's that make up this Face."))
         .def("sharesEdge", &Occ::Face::sharesEdge, 
                 py::arg("aFace"),
                 py::doc("Checks whether self has a common OccWrapper.Edge with aFace"))
