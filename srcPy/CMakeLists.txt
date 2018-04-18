@@ -3,17 +3,6 @@ include_directories(
     ${PYTHON_INCLUDE_DIRS}
 )
 
-set(OccWrapperLibs
-    OccPrimitive
-    OccBooleanSolid 
-    OccBox 
-    OccCylinder 
-    OccModifiedSolid
-    OccShape
-    OccSolid
-    OccFace
-    OccEdge)
-
 AddLib(OccShapePy STATIC OccShape)
 AddLib(OccEdgePy STATIC OccEdge OccShapePy)
 AddLib(OccFacePy STATIC OccFace OccEdgePy)
