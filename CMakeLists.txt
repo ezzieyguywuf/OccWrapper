@@ -33,7 +33,7 @@ set(OCC_LIBS
     TKLCAF
     TKBool
     TKFillet
-    #TKShHealing
+    TKShHealing
     )
 
 include_directories(
