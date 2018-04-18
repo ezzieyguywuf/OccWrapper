@@ -22,14 +22,6 @@ PYBIND11_MODULE(OccWrapper, m)
     
     This module is a python wrapper around the OccWrapper c++ library.
     OccWrapper is itself a wrapper around the OpenCasCade CAD kernel."
-
-    .. currentmodule:: OccWrapper
-
-    .. autosummary::
-        :toctree: _generate
-
-        ModifiedSolid
-
     )pbdoc";
     // note: the order here matters. a python class must be defined before it can be used
     // in another python class. Thus, OccShape must come before OccEdge must come before

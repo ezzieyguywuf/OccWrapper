@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <OccModifiedSolid.h>
 
 
@@ -41,25 +42,26 @@ R"mydelimiter(
     accounted for in some way: it must either be modified, deleted, or new.
 
     Args:
+        origSolid (OccWrapper.Solid): The original, un-modified solid
+        newSolid (OccWrapper.Solid): The solid with `origSolid` was modified into.
         modifiedFaces (dict): A dictionary of modified faces.
-            The key corresponds to an index in origSolid.getFaces. The value
-            corresponds to a list of indices in newSolid.getFaces. Each
+            The key corresponds to an index in `origSolid.getFaces()`. The value
+            corresponds to a list of indices in `newSolid.getFaces()`. Each
             key-value pair represents a "to" relationship, such that for any
             key index `i` in origSolid.getFaces, each value index `j` in
-            newSolid.getFaces is a modification of `i` "to" `j`.
+            `newSolid.getFaces()` is a modification of `i` "to" `j`.
+        deletedFaces (list): A list of deleted faces.
+            Each item in the list is an index that refers to an item in the
+            `origSolid.getFaces()` list.
+        newFaces (list): A list of new faces.
+            Each item in the list is an index that refers to an item in the
+            `newSolid.getFaces()` list.
 )mydelimiter"))
-//"    deletedFaces"
-//"        list(int, int...)"
-//"            Each value represents an index in origSolid.getFaces which points to"
-//"            a face which was deleted"
-//"    newFaces"
-//"        list(int, int...)"
-//"            Each value represents an index in newSolid.getFaces which points to"
-//"            a face which is new. TODO: this will change."
-        .doc() = "A ModifiedSolid is used for communication. It contains "
-                 "information regarding a\ntopological update of a solid. This "
-                 "information includes which Faces were\nmodified, which were "
-                 "deleted, and which are new. It also maintains a copy of the\n"
-                 "original un-modified solid, as well as the new modified solid"
+        .doc() = R"pbdoc(
+        A ModifiedSolid is a helper class used for communication. It contains
+        information regarding a topological update of a solid. This information
+        includes which Faces were modified, which were deleted, and which are
+        new. It also maintains a copy of the original un-modified solid, as well
+        as the new modified solid)pbdoc"
         ;
 }
