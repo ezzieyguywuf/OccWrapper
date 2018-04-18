@@ -13,37 +13,19 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Werror -Wextra -Wall")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wextra -Wall")
 
 set (CMAKE_HELPER_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake_helper")
-#set (CMAKE_MODULE_PATH ${CMAKE_HELPER_DIR})
+set (CMAKE_MODULE_PATH ${CMAKE_HELPER_DIR})
 include(${CMAKE_HELPER_DIR}/functions.cmake)
 #set (BUILD_SHARED_LIBS ON)
 
-set(OCC_INCLUDE "/home/wolfie/Program/CAD_dev/opencascade-7.2.0/inc")
-set(OCC_LIBRARIES "/home/wolfie/Program/CAD_dev/opencascade-7.2.0/build/lin64/gcc/libd")
-set(OCC_LIBS 
-    TKBRep 
-    TKPrim
-    TKernel
-    TKGeomAlgo
-    TKTopAlgo
-    TKMath 
-    TKBO
-    TKG3d
-    TKGeomBase
-    TKCAF
-    TKLCAF
-    TKBool
-    TKFillet
-    TKShHealing
-    )
-
+find_package(OpenCasCade REQUIRED)
 include_directories(
     "include"
-    ${OCC_INCLUDE}
+    ${OPENCASCADE_INCLUDE_DIRS}
 )
 
 link_directories(
-    ${OCC_LIBRARIES}
-    )
+    ${OPENCASCADE_LIBRARIES_DIR}
+)
 
 add_subdirectory(src)
 add_subdirectory(srcPy)
