@@ -22,12 +22,13 @@ AddLib(OccPrimitivePy STATIC OccSolidPy OccPrimitive)
 AddLib(OccBoxPy STATIC OccPrimitivePy OccBox)
 AddLib(OccCylinderPy STATIC OccPrimitivePy OccCylinder)
 AddLib(OccModifiedSolidPy STATIC OccBoxPy OccCylinderPy OccModifiedSolid)
+AddLib(OccBooleanSolidPy STATIC OccModifiedSolidPy OccBooleanSolid)
 #AddLib(OccSolidMakerPy STATIC OccBoxPy OccCylinderPy OccSolidMaker)
 
 pybind11_add_module(OccWrapper OccWrapperPy.cpp)
 target_link_libraries(OccWrapper PRIVATE 
     OccPrimitivePy
-    OccModifiedSolidPy
+    OccBooleanSolidPy
 )
 
 pybind11_add_module(example_py test.cpp)

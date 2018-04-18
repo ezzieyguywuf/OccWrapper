@@ -11,6 +11,7 @@ void init_OccSolid(py::module&);
 void init_OccBox(py::module&);
 void init_OccCylinder(py::module&);
 void init_OccModifiedSolid(py::module&);
+void init_OccBooleanSolid(py::module&);
 void init_OccSolidMaker(py::module&);
 
 PYBIND11_MODULE(OccWrapper, m)
@@ -34,5 +35,6 @@ PYBIND11_MODULE(OccWrapper, m)
     init_OccBox(m);
     init_OccCylinder(m);
     init_OccModifiedSolid(m);
+    init_OccBooleanSolid(m);
     //init_OccSolidMaker(m);
 }
