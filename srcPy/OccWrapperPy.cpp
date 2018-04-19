@@ -15,6 +15,7 @@ CylinderPyClass* init_OccCylinder(py::module&);
 void init_OccModifiedSolid(py::module&);
 void init_OccBooleanSolid(py::module&);
 void init_OccSolidMaker(py::module&, BoxPyClass*, CylinderPyClass*);
+void init_OccSolidModifier(py::module&, ShapePyClass*);
 
 PYBIND11_MODULE(OccWrapper, m)
 {
@@ -39,6 +40,7 @@ PYBIND11_MODULE(OccWrapper, m)
     init_OccModifiedSolid(m);
     init_OccBooleanSolid(m);
     init_OccSolidMaker(m, boxClass, cylClass);
+    init_OccSolidModifier(m, shapeClass);
     delete(shapeClass);
     delete(boxClass);
     delete(cylClass);

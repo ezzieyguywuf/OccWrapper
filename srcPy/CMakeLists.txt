@@ -13,10 +13,12 @@ AddPyLib(OccCylinderPy OccCylinder OccPrimitivePy)
 AddPyLib(OccModifiedSolidPy OccModifiedSolid OccBoxPy OccCylinderPy)
 AddPyLib(OccBooleanSolidPy OccBooleanSolid OccModifiedSolidPy)
 AddPyLib(OccSolidMakerPy OccSolidMaker OccBoxPy OccCylinderPy OccBooleanSolidPy)
+AddPyLib(OccSolidModifierPy OccBooleanSolid OccSolidModifier)
 
 pybind11_add_module(OccWrapper OccWrapperPy.cpp)
 target_link_libraries(OccWrapper PRIVATE 
     OccSolidMakerPy
+    OccSolidModifierPy
 )
 
 execute_process(
