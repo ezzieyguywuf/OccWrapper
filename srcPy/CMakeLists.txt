@@ -3,16 +3,16 @@ include_directories(
     ${PYTHON_INCLUDE_DIRS}
 )
 
-AddLib(OccShapePy STATIC OccShape)
-AddLib(OccEdgePy STATIC OccEdge OccShapePy)
-AddLib(OccFacePy STATIC OccFace OccEdgePy)
-AddLib(OccSolidPy STATIC OccSolid OccFacePy)
-AddLib(OccPrimitivePy STATIC OccPrimitive OccSolidPy)
-AddLib(OccBoxPy STATIC OccBox OccPrimitivePy)
-AddLib(OccCylinderPy STATIC OccCylinder OccPrimitivePy)
-AddLib(OccModifiedSolidPy STATIC OccModifiedSolid OccBoxPy OccCylinderPy)
-AddLib(OccBooleanSolidPy STATIC OccBooleanSolid OccModifiedSolidPy)
-AddLib(OccSolidMakerPy STATIC OccSolidMaker OccBoxPy OccCylinderPy OccBooleanSolidPy)
+AddPyLib(OccShapePy OccShape)
+AddPyLib(OccEdgePy OccEdge OccShapePy)
+AddPyLib(OccFacePy OccFace OccEdgePy)
+AddPyLib(OccSolidPy OccSolid OccFacePy)
+AddPyLib(OccPrimitivePy OccPrimitive OccSolidPy)
+AddPyLib(OccBoxPy OccBox OccPrimitivePy)
+AddPyLib(OccCylinderPy OccCylinder OccPrimitivePy)
+AddPyLib(OccModifiedSolidPy OccModifiedSolid OccBoxPy OccCylinderPy)
+AddPyLib(OccBooleanSolidPy OccBooleanSolid OccModifiedSolidPy)
+AddPyLib(OccSolidMakerPy OccSolidMaker OccBoxPy OccCylinderPy OccBooleanSolidPy)
 
 pybind11_add_module(OccWrapper OccWrapperPy.cpp)
 target_link_libraries(OccWrapper PRIVATE 

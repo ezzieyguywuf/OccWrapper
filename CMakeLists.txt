@@ -34,3 +34,4 @@ set(CTEST_ENVIRONMENT CTEST_OUTPUT_ON_FAILURE=1)
 enable_testing()
 
 add_subdirectory(test)
+
