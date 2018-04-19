@@ -19,4 +19,13 @@ target_link_libraries(OccWrapper PRIVATE
     OccSolidMakerPy
 )
 
-pybind11_add_module(example_py test.cpp)
+execute_process(
+    COMMAND python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES 
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+message("-- Python site-packages directory is ${PYTHON_SITE_PACKAGES}")
+install(FILES "${CMAKE_BINARY_DIR}/lib/OccWrapper.cpython-36m-x86_64-linux-gnu.so"
+    DESTINATION ${PYTHON_SITE_PACKAGES}
+)

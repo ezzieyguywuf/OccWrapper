@@ -20,10 +20,4 @@ endfunction(AddLib)
 function(AddPyLib SrcName)
     add_library(${SrcName} STATIC "${SrcName}.cpp")
     target_link_libraries(${SrcName} ${ARGN})
-    install(TARGETS ${SrcName}
-        LIBRARY DESTINATION "lib"
-        ARCHIVE DESTINATION "lib/static"
-        PRIVATE_HEADER DESTINATION "include"
-        PUBLIC_HEADER DESTINATION "include"
-    )
 endfunction(AddPyLib)
