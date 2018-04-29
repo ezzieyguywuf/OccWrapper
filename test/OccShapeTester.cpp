@@ -1,4 +1,5 @@
 #include <OccShape.h>
+#include <OccBox.h>
 #include <TopoDS_Shape.hxx>
 #include <BRepPrimAPI_MakeBox.hxx>
 #include <TopExp.hxx>
@@ -34,11 +35,10 @@ TEST(OccShape, Equals){
 TEST(OccShape, translate)
 {
     BRepPrimAPI_MakeBox mkBox1(10.0, 10.0, 10.0);
-    mkBox1.Build();
-    MyShape shape1(mkBox1.Shape());
-    shape1.translate(5,5,5);
+    Occ::Box myBox(mkBox1); 
+    myBox.translate(5,5,5);
     gp_Trsf transform;
     gp_Pnt pnt(5,5,5);
     transform.SetTranslation(gp_Vec(5,5,5));
-    EXPECT_TRUE(BRep_Tool::Surface(mkBox1.BottomFace())->Value(0,0).IsEqual(pnt, 0.00001));
+    EXPECT_TRUE(BRep_Tool::Surface(TopoDS::Face(myBox.getNamedFace(Occ::FaceName::bottom).getShape()))->Value(0,0).IsEqual(pnt, 0.00001));
 }
