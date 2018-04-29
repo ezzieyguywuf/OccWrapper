@@ -7,9 +7,15 @@
 set (OPENCASCADE_FOUND "NO")
 
 find_path(OPENCASCADE_INCLUDE_DIR TopoDS_Shape.hxx
-    PATH_SUFFIXES opencascade)
+    HINTS ${CMAKE_SOURCE_DIR}/../opencascade-7.0.0/
+          ${CMAKE_SOURCE_DIR}/../opencascade-7.1.0/
+          ${CMAKE_SOURCE_DIR}/../opencascade-7.2.0/
+    PATH_SUFFIXES inc)
 
 find_library(OPENCASCADE_LIBRARY 
+    HINTS ${CMAKE_SOURCE_DIR}/../opencascade-7.0.0/build/lin64/gcc/lib
+          ${CMAKE_SOURCE_DIR}/../opencascade-7.1.0/build/lin64/gcc/lib
+          ${CMAKE_SOURCE_DIR}/../opencascade-7.2.0/build/lin64/gcc/lib
     NAMES TKBRep)
 
 get_filename_component(OPENCASCADE_LIBRARIES_DIR ${OPENCASCADE_LIBRARY} DIRECTORY CACHE)
