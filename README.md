@@ -6,6 +6,7 @@
 git clone --recurse-subprojects https://github.com/ezzieyguywuf/OccWrapper
 cd OccWrapper
 mkdir build
+cd build
 make -j8 all
 make test # if you want to run the tests
 ```
