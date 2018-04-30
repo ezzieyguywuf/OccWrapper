@@ -1,5 +1,15 @@
 # OccWrapper
 
+### How to compile
+
+```bash
+git clone --recurse-subprojects https://github.com/ezzieyguywuf/OccWrapper
+cd OccWrapper
+mkdir build
+make -j8 all
+make test # if you want to run the tests
+```
+
 ### What is it?
 
 OccWrapper is intended to be used as an abstraction layer for OpenCasCade (see? OCC?). It
