@@ -1,5 +1,9 @@
 language: cpp
 
+befor_install:
+    - sudo apt-get -qq update
+    - sudo apt-get install -y python3.6 python3.6-dev
+
 before_script:
     - mkdir build
     - cd build
