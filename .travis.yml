@@ -1,8 +1,10 @@
 language: cpp
 
+before_script:
+    - mkdir build
+    - cd build
+    - cmake ..
+
 script:
-    mkdir build
-    cd build
-    cmake ..
-    make -j8 all
-    make test
+    - make -j8 all
+    - make test
