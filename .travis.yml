@@ -4,7 +4,7 @@ dist: trusty
 before_install:
     - sudo apt-get -qq update
     - sudo apt-get install -y python python-dev
-    - sudo apt-get pyenv global 3.5 
+    - sudo pyenv global 3.5 
 
 before_script:
     - mkdir build
