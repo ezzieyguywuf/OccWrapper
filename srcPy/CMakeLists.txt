@@ -28,6 +28,6 @@ execute_process(
 )
 
 message("-- Python site-packages directory is ${PYTHON_SITE_PACKAGES}")
-install(FILES "${CMAKE_BINARY_DIR}/lib/OccWrapper.cpython-36m-x86_64-linux-gnu.so"
-    DESTINATION ${PYTHON_SITE_PACKAGES}
+install(FILES "${CMAKE_BINARY_DIR}/lib/OccWrapper.cpython-35m-x86_64-linux-gnu.so"
+    DESTINATION "lib"
 )

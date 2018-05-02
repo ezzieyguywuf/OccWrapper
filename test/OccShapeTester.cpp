@@ -7,6 +7,7 @@
 #include <TopAbs_ShapeEnum.hxx>
 #include <TopoDS.hxx>
 #include <TopLoc_Location.hxx>
+#include <Geom_Surface.hxx>
 #include <gp_Trsf.hxx>
 #include <gp_Vec.hxx>
 #include <gp_Pnt.hxx>

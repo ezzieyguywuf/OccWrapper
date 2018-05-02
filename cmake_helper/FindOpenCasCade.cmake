@@ -10,7 +10,7 @@ find_path(OPENCASCADE_INCLUDE_DIR TopoDS_Shape.hxx
     HINTS ${CMAKE_SOURCE_DIR}/../opencascade-7.0.0/
           ${CMAKE_SOURCE_DIR}/../opencascade-7.1.0/
           ${CMAKE_SOURCE_DIR}/../opencascade-7.2.0/
-    PATH_SUFFIXES inc)
+    PATH_SUFFIXES inc oce opencascade)
 
 find_library(OPENCASCADE_LIBRARY 
     HINTS ${CMAKE_SOURCE_DIR}/../opencascade-7.0.0/build/lin64/gcc/lib
