@@ -4,11 +4,17 @@
 
 ### How to compile
 
+First, you will need to install a version of OpenCASCADE and pybind11.
+OpenCASCADE is a HUGE dependency, but it's also what we're wrapping, so there's
+no getting around it. pybind11 is pretty small.
+
 ```bash
+# you need the sub-projects if you want to build the tests
 git clone --recurse-subprojects https://github.com/ezzieyguywuf/OccWrapper
 cd OccWrapper
 mkdir build
 cd build
+cmake ..
 make -j8 all
 make test # if you want to run the tests
 ```
