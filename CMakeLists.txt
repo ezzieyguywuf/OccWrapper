@@ -17,15 +17,14 @@ set (CMAKE_MODULE_PATH ${CMAKE_HELPER_DIR})
 include(${CMAKE_HELPER_DIR}/functions.cmake)
 #set (BUILD_SHARED_LIBS ON)
 
-find_package(OpenCasCade REQUIRED)
+find_package(OpenCASCADE REQUIRED)
 include_directories(
     "include"
-    ${OPENCASCADE_INCLUDE_DIRS}
+    ${OpenCASCADE_INCLUDE_DIR}
 )
+message("OpenCASCADE_INCLUDE_DIR=${OpenCASCADE_INCLUDE_DIR}")
 
-link_directories(
-    ${OPENCASCADE_LIBRARIES_DIR}
-)
+link_directories(${OpenCASCADE_LIBRARY_DIR})
 
 add_subdirectory(src)
 add_subdirectory(srcPy)
