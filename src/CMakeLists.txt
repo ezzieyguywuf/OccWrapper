@@ -1,4 +1,4 @@
-AddLib(OccShape ${OPENCASCADE_LIBRARIES})
+AddLib(OccShape ${OpenCASCADE_LIBRARIES})
 AddLib(OccEdge OccShape)
 AddLib(OccFace OccEdge)
 AddLib(OccSolid OccFace)
