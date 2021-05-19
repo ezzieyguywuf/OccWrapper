@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 
 project(OccWrapper)
 
-add_subdirectory(pybind11)
+find_package(pybind11 CONFIG)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
